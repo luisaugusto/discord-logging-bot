@@ -1,1 +1,1 @@
-worker: yarn install && yarn build && yarn start
+worker: npm i -g typescript && yarn install && yarn build && yarn start
