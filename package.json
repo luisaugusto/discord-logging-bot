@@ -10,8 +10,8 @@
     "build": "tsc",
     "lint": "eslint --ext .ts,.json",
     "lintfix": "eslint --ext .ts,.json --fix",
-    "format": "prettier --write \"src/**/*.{ts,json}\"",
-    "format:lint": "prettier --check \"src/**/*.{tsjson}\""
+    "format": "prettier --write \"**/*.{ts,json}\"",
+    "format:lint": "prettier --check \"**/*.{tsjson}\""
   },
   "dependencies": {
     "@discordjs/builders": "^0.6.0",

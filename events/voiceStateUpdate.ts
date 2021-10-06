@@ -1,5 +1,5 @@
-import type {Event} from './event'
-import {getLoggingChannel} from "../utils/getLoggingChannel";
+import type { Event } from './event';
+import { getLoggingChannel } from '../utils/getLoggingChannel';
 
 export const voiceStateUpdate: Event<'voiceStateUpdate'> = {
   name: 'voiceStateUpdate',
@@ -9,12 +9,18 @@ export const voiceStateUpdate: Event<'voiceStateUpdate'> = {
 
     if (newState.channelId && newState.member) {
       if (oldState.channelId) {
-        channel.send(`<@${newState.member.id}> has left <#${oldState.channelId}> and joined <#${newState.channelId}>.`)
+        channel.send(
+          `<@${newState.member.id}> has left <#${oldState.channelId}> and joined <#${newState.channelId}>.`
+        );
       } else {
-        channel.send(`<@${newState.member.id}> has joined <#${newState.channelId}>.`)
+        channel.send(
+          `<@${newState.member.id}> has joined <#${newState.channelId}>.`
+        );
       }
     } else {
-      channel.send(`<@${oldState.member?.id}> has left <#${oldState.channelId}>.`)
+      channel.send(
+        `<@${oldState.member?.id}> has left <#${oldState.channelId}>.`
+      );
     }
   }
-}
+};

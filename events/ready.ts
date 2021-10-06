@@ -1,12 +1,12 @@
-import type {Event} from './event'
+import type { Event } from './event';
 
 export const ready: Event<'ready'> = {
   name: 'ready',
   once: true,
   async execute(client) {
     client.user.setActivity({
-      type: "PLAYING",
+      type: 'PLAYING',
       name: 'Tinder'
-    })
+    });
   }
-}
+};
