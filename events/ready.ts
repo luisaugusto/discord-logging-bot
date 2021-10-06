@@ -5,7 +5,12 @@ export const ready: Event<'ready'> = {
   once: true,
   async execute(client) {
     client.user.setPresence({
-      activities: []
+      activities: [
+        {
+          type: 'WATCHING',
+          name: 'you'
+        }
+      ]
     });
   }
 };
