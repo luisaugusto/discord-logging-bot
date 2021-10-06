@@ -1,0 +1,46 @@
+{
+  "name": "discord-logging-bot",
+  "version": "1.0.0",
+  "description": "A bot used to log information about a Discord server",
+  "main": "index.js",
+  "author": "Luis Augusto",
+  "license": "MIT",
+  "scripts": {
+    "start": "node .",
+    "build": "tsc",
+    "lint": "eslint --ext .ts,.json",
+    "lintfix": "eslint --ext .ts,.json --fix",
+    "format": "prettier --write \"src/**/*.{ts,json}\"",
+    "format:lint": "prettier --check \"src/**/*.{tsjson}\""
+  },
+  "dependencies": {
+    "@discordjs/builders": "^0.6.0",
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "discord-api-types": "^0.23.1",
+    "discord.js": "^13.2.0",
+    "dotenv": "^10.0.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.27.0",
+    "@typescript-eslint/parser": "^4.27.0",
+    "eslint": "^7.29.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^3.0.9",
+    "lint-staged": "^9.4.2",
+    "prettier": "^2.3.1",
+    "typescript": "^4.4.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{ts,json}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
