@@ -7,6 +7,8 @@ export const voiceStateUpdate: Event<'voiceStateUpdate'> = {
     const channel = await getLoggingChannel(oldState.guild.channels);
     if (!channel) return;
 
+    if (newState.channelId === oldState.channelId) return;
+
     if (newState.channelId && newState.member) {
       if (oldState.channelId) {
         channel.send(
