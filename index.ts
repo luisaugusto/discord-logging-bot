@@ -5,7 +5,7 @@ import { messageDelete } from './events/messageDelete';
 import { voiceStateUpdate } from './events/voiceStateUpdate';
 import { Client, Intents } from 'discord.js';
 import type { Event } from './events/event';
-//test
+
 const client = new Client({
   intents: [
     Intents.FLAGS.GUILDS,
