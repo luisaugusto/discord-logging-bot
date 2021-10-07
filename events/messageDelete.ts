@@ -1,6 +1,6 @@
 import type { Event } from './event';
 import { getLoggingChannel } from '../utils/getLoggingChannel';
-import { Message, MessageOptions, MessagePayload } from 'discord.js';
+import { createMessage } from '../utils/createMessage';
 
 export const messageDelete: Event<'messageDelete'> = {
   name: 'messageDelete',
@@ -23,25 +23,6 @@ export const messageDelete: Event<'messageDelete'> = {
         .then(message => message)
         .catch(() => null);
     })();
-
-    const createMessage = (
-      messageData: Message,
-      content?: string
-    ): MessagePayload | MessageOptions => ({
-      content,
-      embeds: [
-        {
-          description: `${messageData.content}\n\n- <@${messageData.author.id}>`,
-          timestamp: messageData.createdAt,
-          thumbnail: {
-            url: messageData.author.avatarURL() || ''
-          },
-          image: {
-            url: messageData.attachments.first()?.url
-          }
-        }
-      ]
-    });
 
     const hasMatchingAudit =
       auditLog?.target &&

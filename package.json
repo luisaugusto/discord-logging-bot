@@ -6,7 +6,8 @@
   "author": "Luis Augusto",
   "license": "MIT",
   "scripts": {
-    "start": "node .",
+    "start": "yarn deploy-commands && node .",
+    "deploy-commands": "node deploy-commands.js",
     "build": "tsc",
     "lint": "eslint --ext .ts,.json",
     "lintfix": "eslint --ext .ts,.json --fix",
