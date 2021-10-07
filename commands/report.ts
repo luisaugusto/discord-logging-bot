@@ -45,7 +45,9 @@ export const report: Command = {
       await channel.send(
         createMessage(
           reportedMessage,
-          `:rotating_light: A message has been reported by ${userMention(
+          `:rotating_light: ${
+            interaction.guild.roles.everyone
+          } A message has been reported by ${userMention(
             interaction.user.id
           )} in ${channelMention(interaction.channelId)}\n${
             reportedMessage.url
