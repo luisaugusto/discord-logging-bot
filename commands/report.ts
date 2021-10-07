@@ -29,7 +29,10 @@ export const report: Command = {
       if (!interaction.guild) return;
 
       if (message.author.id !== interaction.user.id) return;
-      const channel = await getLoggingChannel(interaction.guild.channels);
+      const channel = await getLoggingChannel(
+        interaction.guild.channels,
+        process.env.REPORTS_CHANNEL
+      );
       if (!channel) return;
 
       await interaction.user.send(
