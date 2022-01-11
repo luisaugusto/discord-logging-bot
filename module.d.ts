@@ -4,5 +4,7 @@ declare namespace NodeJS {
     CLIENT_ID: string;
     LOGGING_CHANNEL: string;
     REPORTS_CHANNEL: string;
+    WELCOME_CHANNEL: string;
+    GIPHY_KEY: string;
   }
 }

@@ -1,6 +1,9 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction } from 'discord.js';
 
+// To learn about message commands, visit
+// https://discord.com/developers/docs/interactions/application-commands#message-commands
+
 interface MessageApplicationData {
   name: string;
   type: 3;
