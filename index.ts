@@ -1,3 +1,5 @@
+import { guildMemberUpdate } from './events/guildMemberUpdate';
+
 require('dotenv').config();
 
 import { ready } from './events/ready';
@@ -26,6 +28,7 @@ const client = new Client({
 const events: Event<any>[] = [
   ready,
   guildMemberAdd,
+  guildMemberUpdate,
   messageCreate,
   messageDelete,
   voiceStateUpdate
