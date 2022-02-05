@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandInteraction } from 'discord.js';
+import { CommandInteraction, ContextMenuInteraction } from 'discord.js';
 
 // To learn about message commands, visit
 // https://discord.com/developers/docs/interactions/application-commands#message-commands
@@ -26,5 +26,5 @@ export interface Command {
   data:
     | Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
     | MessageApplication;
-  execute(interaction: CommandInteraction): void;
+  execute(interaction: CommandInteraction | ContextMenuInteraction): void;
 }

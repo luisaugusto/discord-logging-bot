@@ -10,6 +10,7 @@ import { voiceStateUpdate } from './events/voiceStateUpdate';
 import { report } from './commands/report';
 import { Client, Intents } from 'discord.js';
 import type { Event } from './events/event';
+import { mallCop } from './commands/mallCop';
 
 const client = new Client({
   // https://discord.com/developers/docs/topics/gateway#list-of-intents
@@ -43,7 +44,7 @@ events.forEach(event => {
   }
 });
 
-const commands = [report];
+const commands = [report, mallCop];
 
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand() && !interaction.isContextMenu()) return;
