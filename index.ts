@@ -10,7 +10,7 @@ import { voiceStateUpdate } from './events/voiceStateUpdate';
 import { report } from './commands/report';
 import { Client, Intents } from 'discord.js';
 import type { Event } from './events/event';
-import { mallCop } from './commands/mallCop';
+import { mallCopRadio } from './commands/mallCopRadio';
 
 const client = new Client({
   // https://discord.com/developers/docs/topics/gateway#list-of-intents
@@ -37,23 +37,18 @@ const events: Event<any>[] = [
 
 events.forEach(event => {
   // The ready event should only run once, when the app is ready
-  if (event.once) {
-    client.once(event.name, (...args) => event.execute(...args));
-  } else {
-    client.on(event.name, (...args) => event.execute(...args));
-  }
+  if (event.once) client.once(event.name, (...args) => event.execute(...args));
+  else client.on(event.name, (...args) => event.execute(...args));
 });
 
-const commands = [report, mallCop];
+const commands = [report, mallCopRadio];
 
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand() && !interaction.isContextMenu()) return;
   const { commandName } = interaction;
 
   const command = commands.find(({ data }) => data.name === commandName);
-
-  if (!command) return;
-  command.execute(interaction);
+  command?.execute(interaction);
 });
 
 (() => client.login(process.env.TOKEN))();

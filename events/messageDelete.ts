@@ -50,7 +50,7 @@ export const messageDelete: Event<'messageDelete'> = {
         )
       );
     } else {
-      // If there's no audit log and we just have a partial message, the only data we can really get is the channel id.
+      // If there's no audit log, and we just have a partial message, the only data we can really get is the channel id.
       channel.send(
         `A message was deleted in <#${message.channelId}>, but I could not find any other details about this action. Sorry!\nMessage ID: ${message.id}`
       );

@@ -1,6 +1,6 @@
 {
   "name": "discord-logging-bot",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "A bot used to log information about a Discord server",
   "main": "index.js",
   "author": "Luis Augusto",
@@ -17,14 +17,16 @@
   },
   "dependencies": {
     "@discordjs/builders": "^0.12.0",
+    "@discordjs/opus": "^0.7.0",
     "@discordjs/rest": "^0.3.0",
     "@discordjs/voice": "^0.8.0",
     "axios": "^0.24.0",
     "discord-api-types": "^0.26.1",
+    "discord-ytdl-core": "^5.0.4",
     "discord.js": "^13.6.0",
     "dotenv": "^10.0.0",
-    "libsodium-wrappers": "^0.7.9",
-    "ytdl-core-discord": "^1.3.1"
+    "ffmpeg-static": "^4.4.1",
+    "libsodium-wrappers": "^0.7.9"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.27.0",
@@ -35,7 +37,8 @@
     "husky": "^3.0.9",
     "lint-staged": "^9.4.2",
     "prettier": "^2.3.1",
-    "typescript": "^4.4.3"
+    "typescript": "^4.4.3",
+    "ytdl-core": "^4.10.1"
   },
   "husky": {
     "hooks": {
