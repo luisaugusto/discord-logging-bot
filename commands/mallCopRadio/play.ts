@@ -56,8 +56,8 @@ export const play = async (interaction: CommandInteraction) => {
   player.play(music);
 
   player.on('error', err => {
-    console.log(err);
-    console.log(player.state);
+    console.log(err.message);
+    console.log(err.stack);
   });
 
   player.on(AudioPlayerStatus.Idle, () => {
