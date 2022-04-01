@@ -4,11 +4,14 @@ import axios from 'axios';
 export const messageCreate: Event<'messageCreate'> = {
   name: 'messageCreate',
   async execute(message) {
-    if (Math.random() > 0.5) return;
     const text = message.content.toLowerCase();
     // April Fool's Weekend
     if (new Date().getTime() < new Date('April 4, 2022').getTime()) {
-      if (!text.includes('goose') || message.author.bot) return;
+      if (
+        !text.includes('goose') &&
+        !message.mentions.users.hasAny('682454612397391930')
+      )
+        return;
 
       const gif = await axios.get<{ data: { id: string } }>(
         'https://api.giphy.com/v1/gifs/random',
@@ -31,6 +34,7 @@ export const messageCreate: Event<'messageCreate'> = {
       });
     }
 
+    if (Math.random() > 0.5) return;
     if (!text.includes('GAS PEDAL') || message.author.bot) return;
     const exclamationCount = Math.floor(Math.random() * 10) + 3;
     const exclamations = Array.from(Array(exclamationCount))
