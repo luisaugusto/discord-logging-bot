@@ -8,7 +8,7 @@ export const ready: Event<'ready'> = {
       activities: [
         {
           type: 'WATCHING',
-          name: 'You (v1.3.6)'
+          name: 'You (v1.3.7)'
         }
       ]
     });

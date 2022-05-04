@@ -1,6 +1,6 @@
 {
   "name": "discord-logging-bot",
-  "version": "1.3.3",
+  "version": "1.3.7",
   "description": "A bot used to log information about a Discord server",
   "main": "index.js",
   "author": "Luis Augusto",
@@ -10,10 +10,10 @@
     "watch": "tsc --watch",
     "deploy-commands": "node deploy-commands.js",
     "build": "tsc",
-    "lint": "eslint --ext .ts,.json",
-    "lintfix": "eslint --ext .ts,.json --fix",
-    "format": "prettier --write \"**/*.{ts,json}\"",
-    "format:lint": "prettier --check \"**/*.{tsjson}\""
+    "lint": "eslint --ext .ts,.json,.js",
+    "lintfix": "eslint --ext .ts,.json,.js --fix",
+    "format": "prettier --write \"**/*.{ts,json,js}\"",
+    "format:lint": "prettier --check \"**/*.{ts,json,js}\""
   },
   "dependencies": {
     "@discordjs/builders": "^0.12.0",
