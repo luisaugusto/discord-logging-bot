@@ -9,5 +9,9 @@ module.exports = {
   env: {
     browser: true,
     es6: true
+  },
+  rules: {
+    '@typescript-eslint/no-explicit-any': ['error'],
+    '@typescript-eslint/no-unused-vars': ['error']
   }
 };

@@ -8,7 +8,7 @@ import { messageDelete } from './events/messageDelete';
 import { messageCreate } from './events/messageCreate';
 import { voiceStateUpdate } from './events/voiceStateUpdate';
 import { report } from './commands/report';
-import { Client, Intents } from 'discord.js';
+import { Client, ClientEvents, Intents } from 'discord.js';
 import type { Event } from './events/event';
 import { mallCopRadio } from './commands/mallCopRadio';
 
@@ -26,7 +26,7 @@ const client = new Client({
   partials: ['MESSAGE', 'CHANNEL']
 });
 
-const events: Event<any>[] = [
+const events: Event<keyof ClientEvents>[] = [
   ready,
   guildMemberAdd,
   guildMemberUpdate,
