@@ -35,7 +35,7 @@ export const messageDelete: Event<'messageDelete'> = {
       auditLog?.executor &&
       fullMessage
     ) {
-      channel.send(
+      await channel.send(
         createMessage(
           fullMessage,
           `<@${auditLog.executor.id}> has deleted a message in <#${message.channelId}> :eyes:`
@@ -43,7 +43,7 @@ export const messageDelete: Event<'messageDelete'> = {
       );
     } else if (fullMessage) {
       // If there is no audit log, we cannot find out who deleted the message, but we can still show the message content
-      channel.send(
+      await channel.send(
         createMessage(
           fullMessage,
           `A message was deleted in <#${message.channelId}>, but no relevant audit logs were found and I'm not sure who deleted it.`
@@ -51,7 +51,7 @@ export const messageDelete: Event<'messageDelete'> = {
       );
     } else {
       // If there's no audit log, and we just have a partial message, the only data we can really get is the channel id.
-      channel.send(
+      await channel.send(
         `A message was deleted in <#${message.channelId}>, but I could not find any other details about this action. Sorry!\nMessage ID: ${message.id}`
       );
     }

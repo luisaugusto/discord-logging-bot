@@ -23,7 +23,7 @@ export const guildMemberUpdate: Event<'guildMemberUpdate'> = {
       }
     );
 
-    generalChannel.send({
+    await generalChannel.send({
       content: `YOOOOOO CAN I GET SOME POGS IN THE CHAT??? ${userMention(
         newMember.id
       )} JUST BOOSTED THE SERVER 🥳🚀🔥`,

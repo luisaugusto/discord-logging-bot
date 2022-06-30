@@ -11,16 +11,16 @@ export const voiceStateUpdate: Event<'voiceStateUpdate'> = {
 
     if (newState.channelId && newState.member) {
       if (oldState.channelId) {
-        channel.send(
+        await channel.send(
           `<@${newState.member.id}> has left <#${oldState.channelId}> and joined <#${newState.channelId}>.`
         );
       } else {
-        channel.send(
+        await channel.send(
           `<@${newState.member.id}> has joined <#${newState.channelId}>.`
         );
       }
     } else {
-      channel.send(
+      await channel.send(
         `<@${oldState.member?.id}> has left <#${oldState.channelId}>.`
       );
     }

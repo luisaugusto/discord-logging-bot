@@ -1,7 +1,5 @@
 import { guildMemberUpdate } from './events/guildMemberUpdate';
-
-require('dotenv').config();
-
+import { config } from 'dotenv';
 import { ready } from './events/ready';
 import { guildMemberAdd } from './events/guildMemberAdd';
 import { messageDelete } from './events/messageDelete';
@@ -11,6 +9,8 @@ import { report } from './commands/report';
 import { Client, ClientEvents, Intents } from 'discord.js';
 import type { Event } from './events/event';
 import { mallCopRadio } from './commands/mallCopRadio';
+
+config();
 
 const client = new Client({
   // https://discord.com/developers/docs/topics/gateway#list-of-intents

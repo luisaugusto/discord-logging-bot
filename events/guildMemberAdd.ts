@@ -22,7 +22,7 @@ export const guildMemberAdd: Event<'guildMemberAdd'> = {
       }
     );
 
-    welcomeChannel.send({
+    await welcomeChannel.send({
       embeds: [
         {
           description: `Welcome ${userMention(member.id)}! The server now has ${
