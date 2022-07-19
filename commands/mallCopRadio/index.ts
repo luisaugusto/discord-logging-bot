@@ -31,7 +31,7 @@ export const mallCopRadio: Command = {
         )
     ),
   async execute(interaction) {
-    if (!interaction.isCommand()) return;
+    if (!interaction.isChatInputCommand()) return;
 
     const subCommand = interaction.options.getSubcommand(true) as SubCommand;
     subCommandActions[subCommand](interaction);

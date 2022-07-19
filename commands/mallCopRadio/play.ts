@@ -11,6 +11,7 @@ import { channelMention } from '@discordjs/builders';
 
 export const play = async (interaction: CommandInteraction) => {
   if (!interaction.guild) return;
+  if (!interaction.isChatInputCommand()) return;
 
   const user = interaction.user;
   const url = interaction.options.getString('url', true);

@@ -6,7 +6,7 @@ import { messageDelete } from './events/messageDelete';
 import { messageCreate } from './events/messageCreate';
 import { voiceStateUpdate } from './events/voiceStateUpdate';
 import { report } from './commands/report';
-import { Client, ClientEvents, Intents } from 'discord.js';
+import { Client, ClientEvents, GatewayIntentBits, Partials } from 'discord.js';
 import type { Event } from './events/event';
 import { mallCopRadio } from './commands/mallCopRadio';
 
@@ -15,15 +15,15 @@ config();
 const client = new Client({
   // https://discord.com/developers/docs/topics/gateway#list-of-intents
   intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MEMBERS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.DIRECT_MESSAGES,
-    Intents.FLAGS.GUILD_VOICE_STATES
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.GuildVoiceStates
   ],
   // https://discordjs.guide/popular-topics/partials.html#enabling-partials
   // used for the message delete event
-  partials: ['MESSAGE', 'CHANNEL']
+  partials: [Partials.Message, Partials.Channel]
 });
 
 const events: Event<keyof ClientEvents>[] = [
@@ -44,7 +44,8 @@ events.forEach(event => {
 const commands = [report, mallCopRadio];
 
 client.on('interactionCreate', async interaction => {
-  if (!interaction.isCommand() && !interaction.isContextMenu()) return;
+  if (!interaction.isContextMenuCommand() && !interaction.isChatInputCommand())
+    return;
   const { commandName } = interaction;
 
   const command = commands.find(({ data }) => data.name === commandName);

@@ -32,7 +32,7 @@ export const guildMemberUpdate: Event<'guildMemberUpdate'> = {
           image: {
             url: `https://media0.giphy.com/media/${gif.data.data.id}/giphy.gif`
           },
-          timestamp: new Date()
+          timestamp: new Date().toISOString()
         }
       ]
     });

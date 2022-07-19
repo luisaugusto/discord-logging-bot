@@ -2,7 +2,7 @@ import {
   SlashCommandBuilder,
   SlashCommandSubcommandsOnlyBuilder
 } from '@discordjs/builders';
-import { CommandInteraction, ContextMenuInteraction } from 'discord.js';
+import { CommandInteraction, ContextMenuCommandInteraction } from 'discord.js';
 
 // To learn about message commands, visit
 // https://discord.com/developers/docs/interactions/application-commands#message-commands
@@ -30,5 +30,7 @@ export interface Command {
     | SlashCommandBuilder
     | MessageApplication
     | SlashCommandSubcommandsOnlyBuilder;
-  execute(interaction: CommandInteraction | ContextMenuInteraction): void;
+  execute(
+    interaction: CommandInteraction | ContextMenuCommandInteraction
+  ): void;
 }

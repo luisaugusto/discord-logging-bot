@@ -8,7 +8,7 @@ export const report: Command = {
   data: createMessageApplication('Report Message'),
   async execute(interaction) {
     if (!interaction.guild) return;
-    if (!interaction.isContextMenu()) return;
+    if (!interaction.isContextMenuCommand()) return;
 
     await interaction.reply({
       content:

@@ -1,4 +1,5 @@
 import type { Event } from './event';
+import { ActivityType } from 'discord-api-types/v10';
 
 export const ready: Event<'ready'> = {
   name: 'ready',
@@ -7,8 +8,8 @@ export const ready: Event<'ready'> = {
     client.user.setPresence({
       activities: [
         {
-          type: 'WATCHING',
-          name: 'You (v1.3.8)'
+          type: ActivityType.Watching,
+          name: 'You (v1.4.0)'
         }
       ]
     });

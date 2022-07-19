@@ -15,12 +15,12 @@ export const createMessage = (
   embeds: [
     {
       description: `${messageData.content}\n\n- <@${messageData.author.id}>`,
-      timestamp: messageData.createdAt,
+      timestamp: messageData.createdAt.toISOString(),
       thumbnail: {
         url: messageData.author.avatarURL() || ''
       },
       image: {
-        url: messageData.attachments.first()?.url
+        url: messageData.attachments.first()?.url || ''
       },
       fields
     }

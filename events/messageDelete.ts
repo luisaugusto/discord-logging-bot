@@ -1,15 +1,16 @@
 import type { Event } from './event';
 import { getLoggingChannel } from '../utils/getLoggingChannel';
 import { createMessage } from '../utils/createMessage';
+import { AuditLogEvent, ChannelType } from 'discord.js';
 
 export const messageDelete: Event<'messageDelete'> = {
   name: 'messageDelete',
   async execute(message) {
-    if (!message.guild || message.channel.type === 'DM') return;
+    if (!message.guild || message.channel.type === ChannelType.DM) return;
 
     const fetchedLogs = await message.guild.fetchAuditLogs({
       limit: 1,
-      type: 'MESSAGE_DELETE'
+      type: AuditLogEvent.MessageDelete
     });
     const auditLog = fetchedLogs.entries.first();
 
