@@ -1,7 +1,7 @@
 import type { Event } from './event';
 import { getLoggingChannel } from '../utils/getLoggingChannel';
 import { userMention } from '@discordjs/builders';
-import axios from 'axios';
+import getGif from '../utils/getGif';
 
 export const guildMemberAdd: Event<'guildMemberAdd'> = {
   name: 'guildMemberAdd',
@@ -11,16 +11,10 @@ export const guildMemberAdd: Event<'guildMemberAdd'> = {
       process.env.WELCOME_CHANNEL
     );
 
-    const gif = await axios.get<{ data: { id: string } }>(
-      'https://api.giphy.com/v1/gifs/random',
-      {
-        params: {
-          api_key: process.env.GIPHY_KEY,
-          tag: 'hello',
-          rating: 'pg-13'
-        }
-      }
-    );
+    const gif = await getGif({
+      tag: 'hello',
+      rating: 'pg-13'
+    });
 
     await welcomeChannel.send({
       embeds: [
@@ -29,7 +23,7 @@ export const guildMemberAdd: Event<'guildMemberAdd'> = {
             member.guild.memberCount
           } members.`,
           image: {
-            url: `https://media0.giphy.com/media/${gif.data.data.id}/giphy.gif`
+            url: gif
           },
           timestamp: new Date().toISOString()
         }

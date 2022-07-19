@@ -1,7 +1,7 @@
 import type { Event } from './event';
 import { getLoggingChannel } from '../utils/getLoggingChannel';
-import axios from 'axios';
 import { userMention } from '@discordjs/builders';
+import getGif from '../utils/getGif';
 
 export const guildMemberUpdate: Event<'guildMemberUpdate'> = {
   name: 'guildMemberUpdate',
@@ -14,14 +14,7 @@ export const guildMemberUpdate: Event<'guildMemberUpdate'> = {
       '💬general'
     );
 
-    const gif = await axios.get<{ data: { id: string } }>(
-      'https://api.giphy.com/v1/gifs/xT39DndqIF1Xn1Om3e',
-      {
-        params: {
-          api_key: process.env.GIPHY_KEY
-        }
-      }
-    );
+    const gif = await getGif({ id: 'xT39DndqIF1Xn1Om3e' });
 
     await generalChannel.send({
       content: `YOOOOOO CAN I GET SOME POGS IN THE CHAT??? ${userMention(
@@ -30,7 +23,7 @@ export const guildMemberUpdate: Event<'guildMemberUpdate'> = {
       embeds: [
         {
           image: {
-            url: `https://media0.giphy.com/media/${gif.data.data.id}/giphy.gif`
+            url: gif
           },
           timestamp: new Date().toISOString()
         }
