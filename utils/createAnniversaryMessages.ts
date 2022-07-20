@@ -1,10 +1,4 @@
-import {
-  Client,
-  Collection,
-  Guild,
-  GuildMember,
-  TextChannel
-} from 'discord.js';
+import { Client, Collection, Guild, GuildMember } from 'discord.js';
 import differenceInMilliseconds from 'date-fns/differenceInMilliseconds';
 import differenceInYears from 'date-fns/differenceInYears';
 import startOfTomorrow from 'date-fns/startOfTomorrow';
@@ -14,16 +8,11 @@ import { getLoggingChannel } from './getLoggingChannel';
 import { userMention } from '@discordjs/builders';
 import getGif from './getGif';
 
-const getUsersWithAnniversaries = async ({
-  guild,
-  currentMonth,
-  currentDate
-}: {
-  guild: Guild;
-  currentMonth: number;
-  currentDate: number;
-}) => {
+const getUsersWithAnniversaries = async (guild: Guild) => {
   const allMembers = await guild.members.fetch();
+
+  const currentMonth = getMonth(new Date());
+  const currentDate = getDate(new Date());
 
   return allMembers.filter(user => {
     if (!user.joinedAt) return false;
@@ -43,17 +32,24 @@ const getUsersWithAnniversaries = async ({
 
 const sendMessageForUsers = async (
   users: Collection<string, GuildMember>,
-  channel: TextChannel
-) =>
-  Promise.all(
+  guild: Guild
+) => {
+  const anniversaryChannel = await getLoggingChannel(
+    guild.channels,
+    process.env.ANNIVERSARY_CHANNEL
+  );
+
+  return Promise.all(
     users.map(async ({ joinedAt, id, displayName }) => {
       console.log(
         `Sending message for ${displayName} (${id}) on ${joinedAt?.toISOString()}`
       );
+
       const gif = await getGif({ tag: 'dance', rating: 'pg-13' });
+
       return (
         joinedAt &&
-        channel.send({
+        anniversaryChannel.send({
           content: `Happy discord anniversary to ${userMention(
             id
           )}, who has been in the server for a total of ${differenceInYears(
@@ -72,6 +68,7 @@ const sendMessageForUsers = async (
       );
     })
   );
+};
 
 const createAnniversaryMessages = (client: Client<true>) => {
   const timeUntilNextDay = differenceInMilliseconds(
@@ -81,9 +78,6 @@ const createAnniversaryMessages = (client: Client<true>) => {
   console.log({ timeUntilNextDay });
 
   setTimeout(async () => {
-    const currentMonth = getMonth(new Date());
-    const currentDate = getDate(new Date());
-
     const guilds = await client.guilds.fetch();
 
     await Promise.all(
@@ -91,20 +85,12 @@ const createAnniversaryMessages = (client: Client<true>) => {
         const guild = await oathGuild.fetch();
         console.log(`Fetching users for ${guild.name} (${guild.id})...`);
 
-        const anniversaryChannel = await getLoggingChannel(
-          guild.channels,
-          process.env.ANNIVERSARY_CHANNEL
-        );
-
-        const users = await getUsersWithAnniversaries({
-          guild,
-          currentMonth,
-          currentDate
-        });
+        const users = await getUsersWithAnniversaries(guild);
 
         console.log(`${users.size} users found with anniversary.`);
 
-        await sendMessageForUsers(users, anniversaryChannel);
+        if (users.size === 0) return;
+        await sendMessageForUsers(users, guild);
         console.log(`messages sent!`);
       })
     );
