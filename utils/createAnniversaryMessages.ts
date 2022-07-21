@@ -7,7 +7,6 @@ import getDate from 'date-fns/getDate';
 import { getLoggingChannel } from './getLoggingChannel';
 import { userMention } from '@discordjs/builders';
 import getGif from './getGif';
-import addDays from 'date-fns/addDays';
 
 const getUsersWithAnniversaries = async (guild: Guild) => {
   const allMembers = await guild.members.fetch();
@@ -46,11 +45,7 @@ const sendMessageForUsers = async (
     users.map(async ({ joinedAt, id, displayName }) => {
       const gif = await getGif({ tag: 'dance', rating: 'pg-13' });
       if (!joinedAt) return;
-      const difference = differenceInYears(
-        new Date(),
-        // need to use addDays here since difference in years will return whole number rounded down
-        addDays(joinedAt, 2)
-      );
+      const difference = differenceInYears(new Date(), joinedAt) + 1;
       console.log(
         `Sending message for ${displayName} (${id}) ${joinedAt.toISOString()}`
       );
