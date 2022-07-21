@@ -49,7 +49,7 @@ const sendMessageForUsers = async (
       const difference = differenceInYears(
         new Date(),
         // need to use addDays here since difference in years will return whole number rounded down
-        addDays(joinedAt, 1)
+        addDays(joinedAt, 2)
       );
       console.log(
         `Sending message for ${displayName} (${id}) ${joinedAt.toISOString()}`
