@@ -19,6 +19,13 @@ const getUsersWithAnniversaries = async (guild: Guild) => {
     if (!user.joinedAt) return false;
     const joinMonth = getMonth(user.joinedAt);
     const joinDate = getDate(user.joinedAt);
+    console.log({
+      user: user.displayName,
+      currentMonth,
+      joinMonth,
+      currentDate,
+      joinDate
+    });
 
     return (
       !user.user.bot && joinMonth === currentMonth && joinDate === currentDate
@@ -36,13 +43,16 @@ const sendMessageForUsers = async (
   );
 
   return Promise.all(
-    users.map(async ({ joinedAt, id }) => {
+    users.map(async ({ joinedAt, id, displayName }) => {
       const gif = await getGif({ tag: 'dance', rating: 'pg-13' });
       if (!joinedAt) return;
       const difference = differenceInYears(
         new Date(),
         // need to use addDays here since difference in years will return whole number rounded down
         addDays(joinedAt, 1)
+      );
+      console.log(
+        `Sending message for ${displayName} (${id}) ${joinedAt.toISOString()}`
       );
       return anniversaryChannel.send({
         content: `Happy discord anniversary to ${userMention(
@@ -63,11 +73,11 @@ const sendMessageForUsers = async (
   );
 };
 
-const createAnniversaryMessages = (client: Client<true>) => {
-  const timeUntilNextDay = differenceInMilliseconds(
-    startOfTomorrow(),
-    new Date()
-  );
+const createAnniversaryMessages = (client: Client<true>, force: boolean) => {
+  const timeUntilNextDay = force
+    ? 0
+    : differenceInMilliseconds(startOfTomorrow(), new Date());
+  console.log({ timeUntilNextDay });
 
   setTimeout(async () => {
     const guilds = await client.guilds.fetch();
@@ -75,12 +85,14 @@ const createAnniversaryMessages = (client: Client<true>) => {
     await Promise.all(
       guilds.map(async oathGuild => {
         const guild = await oathGuild.fetch();
+        console.log({ guild: guild.name, id: guild.id });
         const users = await getUsersWithAnniversaries(guild);
+        console.log(`Found ${users.size} user(s)`);
         if (users.size > 0) await sendMessageForUsers(users, guild);
       })
     );
 
-    createAnniversaryMessages(client);
+    createAnniversaryMessages(client, false);
   }, timeUntilNextDay);
 };
 

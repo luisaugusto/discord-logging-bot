@@ -6,13 +6,13 @@ export const ready: Event<'ready'> = {
   name: 'ready',
   once: true,
   async execute(client) {
-    createAnniversaryMessages(client);
+    createAnniversaryMessages(client, true);
 
     client.user.setPresence({
       activities: [
         {
           type: ActivityType.Watching,
-          name: 'You (v1.5.3)'
+          name: 'You (v1.5.4)'
         }
       ]
     });
