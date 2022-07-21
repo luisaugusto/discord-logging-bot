@@ -38,27 +38,27 @@ const sendMessageForUsers = async (
   return Promise.all(
     users.map(async ({ joinedAt, id }) => {
       const gif = await getGif({ tag: 'dance', rating: 'pg-13' });
-
-      return (
-        joinedAt &&
-        anniversaryChannel.send({
-          content: `Happy discord anniversary to ${userMention(
-            id
-          )}, who has been in the server for a total of ${differenceInYears(
-            new Date(),
-            // need to use addDays here since difference in years will return whole number rounded down
-            addDays(joinedAt, 1)
-          )} years! 🎉🎊🥳`,
-          embeds: [
-            {
-              image: {
-                url: gif
-              },
-              timestamp: joinedAt.toISOString()
-            }
-          ]
-        })
+      if (!joinedAt) return;
+      const difference = differenceInYears(
+        new Date(),
+        // need to use addDays here since difference in years will return whole number rounded down
+        addDays(joinedAt, 1)
       );
+      return anniversaryChannel.send({
+        content: `Happy discord anniversary to ${userMention(
+          id
+        )}, who has been in the server for a total of ${difference} year${
+          difference > 1 ? 's' : ''
+        }! 🎉🎊🥳`,
+        embeds: [
+          {
+            image: {
+              url: gif
+            },
+            timestamp: joinedAt.toISOString()
+          }
+        ]
+      });
     })
   );
 };
