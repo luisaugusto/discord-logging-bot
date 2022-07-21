@@ -68,10 +68,11 @@ const sendMessageForUsers = async (
   );
 };
 
-const createAnniversaryMessages = (client: Client<true>, force: boolean) => {
-  const timeUntilNextDay = force
-    ? 0
-    : differenceInMilliseconds(startOfTomorrow(), new Date());
+const createAnniversaryMessages = (client: Client<true>) => {
+  const timeUntilNextDay = differenceInMilliseconds(
+    startOfTomorrow(),
+    new Date()
+  );
   console.log({ timeUntilNextDay });
 
   setTimeout(async () => {
@@ -87,7 +88,7 @@ const createAnniversaryMessages = (client: Client<true>, force: boolean) => {
       })
     );
 
-    createAnniversaryMessages(client, false);
+    createAnniversaryMessages(client);
   }, timeUntilNextDay);
 };
 

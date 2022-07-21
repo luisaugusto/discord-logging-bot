@@ -6,7 +6,7 @@ export const ready: Event<'ready'> = {
   name: 'ready',
   once: true,
   async execute(client) {
-    createAnniversaryMessages(client, true);
+    createAnniversaryMessages(client);
 
     client.user.setPresence({
       activities: [
