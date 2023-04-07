@@ -32,7 +32,7 @@ export const messageCreate: Event<'messageCreate'> = {
           ...mappedMessages,
           {
             role: 'system',
-            content: 'Respond with a pun or joke at the end'
+            content: 'Include a joke or pun in the response'
           }
         ]
       });
