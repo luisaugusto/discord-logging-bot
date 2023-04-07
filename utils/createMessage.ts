@@ -1,4 +1,4 @@
-import { Message, MessageOptions, MessagePayload } from 'discord.js';
+import { Message, MessageCreateOptions, MessagePayload } from 'discord.js';
 
 interface Field {
   name: string;
@@ -10,7 +10,7 @@ export const createMessage = (
   messageData: Message,
   content?: string,
   fields: Field[] = []
-): MessagePayload | MessageOptions => ({
+): MessagePayload | MessageCreateOptions => ({
   content,
   embeds: [
     {

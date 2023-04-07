@@ -7,5 +7,7 @@ declare namespace NodeJS {
     WELCOME_CHANNEL: string;
     ANNIVERSARY_CHANNEL: string;
     GIPHY_KEY: string;
+    OPENAI_KEY: string;
+    OPENAI_ORG: string;
   }
 }
