@@ -31,7 +31,8 @@ export const generateImage: Command = {
     const description = interaction.options.getString('description', true);
     try {
       const openAIResponse = await openai.createImage({
-        prompt: description
+        prompt: description,
+        size: '512x512'
       });
 
       canGenerateImage = false;
