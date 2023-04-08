@@ -2,6 +2,8 @@ import { Command } from './command';
 import { SlashCommandBuilder, userMention } from '@discordjs/builders';
 import { openai } from '../utils/openAIConfig';
 
+let canGenerateImage = true;
+
 export const generateImage: Command = {
   data: new SlashCommandBuilder()
     .setName('generate-image')
@@ -14,6 +16,13 @@ export const generateImage: Command = {
     ),
   async execute(interaction) {
     if (!interaction.isChatInputCommand()) return;
+    if (!canGenerateImage) {
+      await interaction.reply({
+        content: 'Please wait up to 1 minute before generating another image.',
+        ephemeral: true
+      });
+      return;
+    }
 
     await interaction.reply({
       content: 'Generating image...',
@@ -24,6 +33,11 @@ export const generateImage: Command = {
       const openAIResponse = await openai.createImage({
         prompt: description
       });
+
+      canGenerateImage = false;
+      setTimeout(() => {
+        canGenerateImage = true;
+      }, 60000);
 
       const url = openAIResponse.data.data[0].url;
       if (!url) return;
