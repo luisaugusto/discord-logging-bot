@@ -9,5 +9,7 @@ declare namespace NodeJS {
     GIPHY_KEY: string;
     OPENAI_KEY: string;
     OPENAI_ORG: string;
+    FIREBASE_API_KEY: string;
+    FIREBASE_APP_ID: string;
   }
 }
