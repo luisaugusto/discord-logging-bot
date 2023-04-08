@@ -16,8 +16,7 @@ export const messageCreate: Event<'messageCreate'> = {
       mappedMessages.unshift({
         role:
           message.author.id === message.client.user.id ? 'assistant' : 'user',
-        content: message.cleanContent,
-        name: message.author.username
+        content: message.cleanContent
       });
     });
 
