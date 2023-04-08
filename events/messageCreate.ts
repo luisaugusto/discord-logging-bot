@@ -13,12 +13,10 @@ export const messageCreate: Event<'messageCreate'> = {
     // For some reason, I can't map the messages in the response
     const mappedMessages: ChatCompletionRequestMessage[] = [];
     prevMessages.forEach(message => {
-      const isAssistant = message.author.id === message.client.user.id;
-      const authorName = isAssistant ? '' : `${message.author.username}:`;
-
       mappedMessages.unshift({
-        role: isAssistant ? 'assistant' : 'user',
-        content: [authorName, message.content].join(' ')
+        role:
+          message.author.id === message.client.user.id ? 'assistant' : 'user',
+        content: message.cleanContent
       });
     });
 
@@ -29,7 +27,7 @@ export const messageCreate: Event<'messageCreate'> = {
           {
             role: 'system',
             content:
-              'You are an AI assistant on a discord server with light-hearted and comedic personality.'
+              'You are an AI assistant on a discord server with light-hearted and comedic personality'
           },
           ...mappedMessages
         ]
@@ -38,9 +36,7 @@ export const messageCreate: Event<'messageCreate'> = {
       openAIResponse.data.choices.forEach(choice => {
         const { message: choiceMessage } = choice;
         if (!choiceMessage) return;
-        message.channel.send(
-          choiceMessage.content.replaceAll('Assistant: ', '')
-        );
+        message.channel.send(choiceMessage.content);
       });
     } catch (e) {
       console.log(e);
