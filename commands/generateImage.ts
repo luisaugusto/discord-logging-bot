@@ -16,7 +16,8 @@ export const generateImage: Command = {
     if (!interaction.isChatInputCommand()) return;
 
     await interaction.reply({
-      content: 'Generating image...'
+      content: 'Generating image...',
+      ephemeral: true
     });
     const description = interaction.options.getString('description', true);
     try {
