@@ -9,6 +9,7 @@ import { report } from './commands/report';
 import { Client, ClientEvents, GatewayIntentBits, Partials } from 'discord.js';
 import type { Event } from './events/event';
 import { mallCopRadio } from './commands/mallCopRadio';
+import { generateImage } from './commands/generateImage';
 
 config();
 
@@ -41,7 +42,7 @@ events.forEach(event => {
   else client.on(event.name, (...args) => event.execute(...args));
 });
 
-const commands = [report, mallCopRadio];
+const commands = [report, mallCopRadio, generateImage];
 
 client.on('interactionCreate', async interaction => {
   if (!interaction.isContextMenuCommand() && !interaction.isChatInputCommand())

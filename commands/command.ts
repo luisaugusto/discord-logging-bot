@@ -27,7 +27,7 @@ export const createMessageApplication = (name: string): MessageApplication => ({
 
 export interface Command {
   data:
-    | SlashCommandBuilder
+    | Omit<SlashCommandBuilder, 'addSubcommandGroup' | 'addSubcommand'>
     | MessageApplication
     | SlashCommandSubcommandsOnlyBuilder;
   execute(

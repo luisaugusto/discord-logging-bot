@@ -12,7 +12,7 @@ export const ready: Event<'ready'> = {
       activities: [
         {
           type: ActivityType.Watching,
-          name: 'You (v2.0.5)'
+          name: 'You (v2.1.0)'
         }
       ]
     });
