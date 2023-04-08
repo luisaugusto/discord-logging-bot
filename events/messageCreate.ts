@@ -27,13 +27,9 @@ export const messageCreate: Event<'messageCreate'> = {
           {
             role: 'system',
             content:
-              'You are an AI assistant on a discord server that acts like a comedian and always includes puns and jokes in your responses.'
+              'You are an AI assistant on a discord server with light-hearted and comedic personality'
           },
-          ...mappedMessages,
-          {
-            role: 'system',
-            content: 'Respond with a light-hearted or comedic personality'
-          }
+          ...mappedMessages
         ]
       });
 
