@@ -36,7 +36,9 @@ export const messageCreate: Event<'messageCreate'> = {
       openAIResponse.data.choices.forEach(choice => {
         const { message: choiceMessage } = choice;
         if (!choiceMessage) return;
-        message.channel.send(choiceMessage.content);
+
+        const splitMessage = choiceMessage.content.match(/(.|[\r\n]){1,1500}/g);
+        splitMessage?.map(chunk => message.channel.send(chunk));
       });
     } catch (e) {
       console.log(e);
