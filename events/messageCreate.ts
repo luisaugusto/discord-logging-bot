@@ -32,6 +32,7 @@ export const messageCreate: Event<'messageCreate'> = {
           ...mappedMessages
         ]
       });
+      console.info(openAIResponse.data);
 
       openAIResponse.data.choices.forEach(choice => {
         const { message: choiceMessage } = choice;
@@ -41,7 +42,7 @@ export const messageCreate: Event<'messageCreate'> = {
         splitMessage?.map(chunk => message.channel.send(chunk));
       });
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 };

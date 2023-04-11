@@ -17,17 +17,19 @@ export const guildMemberAdd: Event<'guildMemberAdd'> = {
     });
 
     await welcomeChannel.send({
-      embeds: [
-        {
-          description: `Welcome ${userMention(member.id)}! The server now has ${
-            member.guild.memberCount
-          } members.`,
-          image: {
-            url: gif
-          },
-          timestamp: new Date().toISOString()
-        }
-      ]
+      content: `Welcome ${userMention(member.id)}! The server now has ${
+        member.guild.memberCount
+      } members.`,
+      embeds: gif
+        ? [
+            {
+              image: {
+                url: gif
+              },
+              timestamp: new Date().toISOString()
+            }
+          ]
+        : undefined
     });
   }
 };

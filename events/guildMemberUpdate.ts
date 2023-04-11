@@ -20,14 +20,16 @@ export const guildMemberUpdate: Event<'guildMemberUpdate'> = {
       content: `YOOOOOO CAN I GET SOME POGS IN THE CHAT??? ${userMention(
         newMember.id
       )} JUST BOOSTED THE SERVER 🥳🚀🔥`,
-      embeds: [
-        {
-          image: {
-            url: gif
-          },
-          timestamp: new Date().toISOString()
-        }
-      ]
+      embeds: gif
+        ? [
+            {
+              image: {
+                url: gif
+              },
+              timestamp: new Date().toISOString()
+            }
+          ]
+        : undefined
     });
   }
 };

@@ -35,10 +35,11 @@ const sendMessageForUsers = async (
   );
 
   return Promise.all(
-    users.map(async ({ joinedAt, id }) => {
+    users.map(async ({ joinedAt, id, user }) => {
       const gif = await getGif({ tag: 'dance', rating: 'pg-13' });
-      if (!joinedAt) return;
+      if (!joinedAt || !gif) return;
       const difference = differenceInYears(new Date(), joinedAt) + 1;
+      console.info({ username: user.username, difference });
       return anniversaryChannel.send({
         content: `Happy discord anniversary to ${userMention(
           id
@@ -63,6 +64,7 @@ const createAnniversaryMessages = (client: Client<true>) => {
     startOfTomorrow(),
     new Date()
   );
+  console.info(`Next anniversary check in ${timeUntilNextDay}ms`);
 
   setTimeout(async () => {
     const guilds = await client.guilds.fetch();
@@ -71,6 +73,7 @@ const createAnniversaryMessages = (client: Client<true>) => {
       guilds.map(async oathGuild => {
         const guild = await oathGuild.fetch();
         const users = await getUsersWithAnniversaries(guild);
+        console.info(`Found ${users.size} users with anniversaries.`);
         if (users.size > 0) await sendMessageForUsers(users, guild);
       })
     );

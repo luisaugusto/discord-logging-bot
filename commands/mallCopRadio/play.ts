@@ -26,11 +26,13 @@ export const play = async (interaction: CommandInteraction) => {
       ephemeral: true
     });
 
-  if (!ytdl.validateURL(url))
+  if (!ytdl.validateURL(url)) {
+    console.error('Invalid YouTube URL: ' + url);
     return await interaction.reply({
       content: `Sorry, I could not find that YouTube video :cry:`,
       ephemeral: true
     });
+  }
 
   const channelId = activeVoiceState.member.voice.channel.id;
 
@@ -57,12 +59,12 @@ export const play = async (interaction: CommandInteraction) => {
   player.play(music);
 
   player.on('error', err => {
-    console.log(err.message);
-    console.log(err.stack);
+    console.error(err.message);
+    console.error(err.stack);
   });
 
   player.on(AudioPlayerStatus.Idle, () => {
-    console.log('now idle');
+    console.info('now idle');
   });
 
   await interaction.reply({

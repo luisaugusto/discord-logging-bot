@@ -25,6 +25,10 @@ export const generateImage: Command = {
   async execute(interaction) {
     if (!interaction.isChatInputCommand()) return;
     if (!canGenerateImage) {
+      console.warn(
+        'User tried to generate image too soon',
+        interaction.user.username
+      );
       await interaction.reply({
         content: 'Please wait up to 1 minute before generating another image.',
         ephemeral: true
@@ -43,6 +47,7 @@ export const generateImage: Command = {
         size: '512x512',
         response_format: 'b64_json'
       });
+      console.info(openAIResponse.data);
 
       canGenerateImage = false;
       setTimeout(() => {
@@ -57,6 +62,7 @@ export const generateImage: Command = {
 
       uploadString(imageRef, url, 'base64').then(async snapshot => {
         const url = await getDownloadURL(snapshot.ref);
+        console.info('Image uploaded at', url);
 
         interaction.channel?.send({
           embeds: [
@@ -79,7 +85,7 @@ export const generateImage: Command = {
         });
       });
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 };

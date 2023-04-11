@@ -15,5 +15,5 @@ rest
       command.toJSON()
     )
   })
-  .then(() => console.log('Successfully registered application commands.'))
+  .then(() => console.info('Successfully registered application commands.'))
   .catch(console.error);
