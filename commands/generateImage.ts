@@ -47,6 +47,7 @@ export const generateImage: Command = {
         size: '512x512',
         response_format: 'b64_json'
       });
+      console.info(description);
       console.info(JSON.stringify(openAIResponse.data));
 
       canGenerateImage = false;

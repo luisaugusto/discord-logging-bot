@@ -32,6 +32,7 @@ export const messageCreate: Event<'messageCreate'> = {
           ...mappedMessages
         ]
       });
+      console.info(message.cleanContent);
       console.info(JSON.stringify(openAIResponse.data));
 
       openAIResponse.data.choices.forEach(choice => {
