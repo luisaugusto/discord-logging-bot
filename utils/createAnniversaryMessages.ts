@@ -39,7 +39,7 @@ const sendMessageForUsers = async (
       const gif = await getGif({ tag: 'dance', rating: 'pg-13' });
       if (!joinedAt || !gif) return;
       const difference = differenceInYears(new Date(), joinedAt) + 1;
-      console.info({ username: user.username, difference });
+      console.info(JSON.stringify({ username: user.username, difference }));
       return anniversaryChannel.send({
         content: `Happy discord anniversary to ${userMention(
           id

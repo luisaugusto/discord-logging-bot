@@ -22,7 +22,8 @@ const getGif = async ({
     .catch(console.error);
 
   if (!gif) {
-    console.error('Unable to fetch GIF', { id, tag, rating });
+    console.error('Unable to fetch GIF');
+    console.error(JSON.stringify({ id, tag, rating }));
     return null;
   }
 
