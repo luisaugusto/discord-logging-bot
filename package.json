@@ -29,7 +29,7 @@
     "firebase": "^9.19.1",
     "libsodium-wrappers": "^0.7.9",
     "openai": "^3.2.1",
-    "ytdl-core": "^4.10.1"
+    "ytdl-core": "4.10.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.30.0",
