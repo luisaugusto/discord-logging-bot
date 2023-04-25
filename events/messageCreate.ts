@@ -21,17 +21,21 @@ export const messageCreate: Event<'messageCreate'> = {
     });
 
     try {
-      const openAIResponse = await openai.createChatCompletion({
-        model: 'gpt-3.5-turbo',
-        messages: [
-          {
-            role: 'system',
-            content:
-              'You are an AI assistant on a discord server with light-hearted and comedic personality'
-          },
-          ...mappedMessages
-        ]
-      });
+      const openAIResponse = await openai
+        .createChatCompletion({
+          model: 'gpt-3.5-turbo',
+          messages: [
+            {
+              role: 'system',
+              content:
+                'You are an AI assistant on a discord server with light-hearted and comedic personality'
+            },
+            ...mappedMessages
+          ]
+        })
+        .catch(err => console.error(JSON.stringify(err)));
+
+      if (!openAIResponse) return;
       console.info(message.cleanContent);
       console.info(JSON.stringify(openAIResponse.data));
 

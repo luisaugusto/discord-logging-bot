@@ -9,6 +9,7 @@ export const voiceStateUpdate: Event<'voiceStateUpdate'> = {
 
     if (newState.channelId === oldState.channelId) return;
 
+    // https://stackoverflow.com/questions/71344815/how-would-i-detect-when-a-user-is-speaking-in-a-voice-channel-discord-js-v13
     if (newState.channelId && newState.member) {
       if (oldState.channelId) {
         await channel.send(
