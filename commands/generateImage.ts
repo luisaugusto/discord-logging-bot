@@ -8,6 +8,7 @@ import {
   getDownloadURL
 } from 'firebase/storage';
 import { app } from '../utils/firebaseConfig';
+import { logtail } from '../utils/logtailConfig';
 
 const storage = getStorage(app);
 let canGenerateImage = true;
@@ -25,10 +26,9 @@ export const generateImage: Command = {
   async execute(interaction) {
     if (!interaction.isChatInputCommand()) return;
     if (!canGenerateImage) {
-      console.warn(
-        'User tried to generate image too soon',
-        interaction.user.username
-      );
+      await logtail.warn('User tried to generate image too soon', {
+        user: interaction.user.username
+      });
       await interaction.reply({
         content: 'Please wait up to 1 minute before generating another image.',
         ephemeral: true
@@ -47,7 +47,10 @@ export const generateImage: Command = {
         size: '512x512',
         response_format: 'b64_json'
       });
-      console.info(description);
+      await logtail.info(
+        'Image generated',
+        JSON.parse(JSON.stringify(openAIResponse.data))
+      );
 
       canGenerateImage = false;
       setTimeout(() => {
@@ -62,7 +65,7 @@ export const generateImage: Command = {
 
       uploadString(imageRef, url, 'base64').then(async snapshot => {
         const url = await getDownloadURL(snapshot.ref);
-        console.info('Image uploaded at', url);
+        await logtail.info('Image uploaded to Firebase', { url });
 
         interaction.channel?.send({
           embeds: [
@@ -85,7 +88,10 @@ export const generateImage: Command = {
         });
       });
     } catch (e) {
-      console.error(e);
+      await logtail.error(
+        'Error generating image',
+        JSON.parse(JSON.stringify(e))
+      );
     }
   }
 };

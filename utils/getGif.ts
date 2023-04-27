@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { logtail } from './logtailConfig';
 
 const getGif = async ({
   id,
@@ -11,23 +12,29 @@ const getGif = async ({
 }) => {
   const url = `https://api.giphy.com/v1/gifs/${id ?? 'random'}`;
 
-  const gif = await axios
-    .get<{ data: { id: string } }>(url, {
+  try {
+    const gif = await axios.get<{ data: { id: string } }>(url, {
       params: {
         api_key: process.env.GIPHY_KEY,
         tag,
         rating
       }
-    })
-    .catch(console.error);
+    });
 
-  if (!gif) {
-    console.error('Unable to fetch GIF');
-    console.error(JSON.stringify({ id, tag, rating }));
-    return null;
+    return `https://media0.giphy.com/media/${gif.data.data.id}/giphy.gif`;
+  } catch (err) {
+    await logtail.error(
+      'Error fetching GIF.',
+      JSON.parse(
+        JSON.stringify({
+          err,
+          id,
+          tag,
+          rating
+        })
+      )
+    );
   }
-
-  return `https://media0.giphy.com/media/${gif.data.data.id}/giphy.gif`;
 };
 
 export default getGif;

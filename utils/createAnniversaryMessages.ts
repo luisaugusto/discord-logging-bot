@@ -7,6 +7,7 @@ import getDate from 'date-fns/getDate';
 import { getLoggingChannel } from './getLoggingChannel';
 import { userMention } from '@discordjs/builders';
 import getGif from './getGif';
+import { logtail } from './logtailConfig';
 
 const getUsersWithAnniversaries = async (guild: Guild) => {
   const allMembers = await guild.members.fetch();
@@ -39,7 +40,10 @@ const sendMessageForUsers = async (
       const gif = await getGif({ tag: 'dance', rating: 'pg-13' });
       if (!joinedAt || !gif) return;
       const difference = differenceInYears(new Date(), joinedAt) + 1;
-      console.info(JSON.stringify({ username: user.username, difference }));
+      await logtail.debug('Sending anniversary message', {
+        username: user.username,
+        difference
+      });
       return anniversaryChannel.send({
         content: `Happy discord anniversary to ${userMention(
           id
@@ -59,12 +63,12 @@ const sendMessageForUsers = async (
   );
 };
 
-const createAnniversaryMessages = (client: Client<true>) => {
+const createAnniversaryMessages = async (client: Client<true>) => {
   const timeUntilNextDay = differenceInMilliseconds(
     startOfTomorrow(),
     new Date()
   );
-  console.info(`Next anniversary check in ${timeUntilNextDay}ms`);
+  await logtail.debug(`Next anniversary check in ${timeUntilNextDay}ms`);
 
   setTimeout(async () => {
     const guilds = await client.guilds.fetch();
@@ -73,7 +77,7 @@ const createAnniversaryMessages = (client: Client<true>) => {
       guilds.map(async oathGuild => {
         const guild = await oathGuild.fetch();
         const users = await getUsersWithAnniversaries(guild);
-        console.info(`Found ${users.size} users with anniversaries.`);
+        await logtail.debug(`Found ${users.size} users with anniversaries.`);
         if (users.size > 0) await sendMessageForUsers(users, guild);
       })
     );

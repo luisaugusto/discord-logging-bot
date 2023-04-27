@@ -8,6 +8,7 @@ import {
   joinVoiceChannel
 } from '@discordjs/voice';
 import { channelMention } from '@discordjs/builders';
+import { logtail } from '../../utils/logtailConfig';
 
 export const play = async (interaction: CommandInteraction) => {
   if (!interaction.guild) return;
@@ -27,7 +28,7 @@ export const play = async (interaction: CommandInteraction) => {
     });
 
   if (!ytdl.validateURL(url)) {
-    console.error('Invalid YouTube URL: ' + url);
+    await logtail.error('Invalid YouTube URL', { url });
     return await interaction.reply({
       content: `Sorry, I could not find that YouTube video :cry:`,
       ephemeral: true
@@ -59,12 +60,11 @@ export const play = async (interaction: CommandInteraction) => {
   player.play(music);
 
   player.on('error', err => {
-    console.error(err.message);
-    console.error(err.stack);
+    logtail.error('Error playing audio', JSON.parse(JSON.stringify(err)));
   });
 
   player.on(AudioPlayerStatus.Idle, () => {
-    console.info('now idle');
+    logtail.info('Audio player idle');
   });
 
   await interaction.reply({

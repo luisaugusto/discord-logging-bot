@@ -1,6 +1,7 @@
 import type { Event } from './event';
 import { openai } from '../utils/openAIConfig';
 import { ChatCompletionRequestMessage } from 'openai';
+import { logtail } from '../utils/logtailConfig';
 
 export const messageCreate: Event<'messageCreate'> = {
   name: 'messageCreate',
@@ -21,23 +22,22 @@ export const messageCreate: Event<'messageCreate'> = {
     });
 
     try {
-      const openAIResponse = await openai
-        .createChatCompletion({
-          model: 'gpt-3.5-turbo',
-          messages: [
-            {
-              role: 'system',
-              content:
-                'You are an AI assistant on a discord server with light-hearted and comedic personality'
-            },
-            ...mappedMessages
-          ]
-        })
-        .catch(err => console.error(JSON.stringify(err)));
+      const openAIResponse = await openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          {
+            role: 'system',
+            content:
+              'You are an AI assistant on a discord server with light-hearted and comedic personality'
+          },
+          ...mappedMessages
+        ]
+      });
 
-      if (!openAIResponse) return;
-      console.info(message.cleanContent);
-      console.info(JSON.stringify(openAIResponse.data));
+      await logtail.info(
+        message.cleanContent,
+        JSON.parse(JSON.stringify(openAIResponse.data))
+      );
 
       openAIResponse.data.choices.forEach(choice => {
         const { message: choiceMessage } = choice;
@@ -47,7 +47,13 @@ export const messageCreate: Event<'messageCreate'> = {
         splitMessage?.map(chunk => message.channel.send(chunk));
       });
     } catch (e) {
-      console.error(e);
+      message.channel.send(
+        'Sorry, I encountered an error. Try asking again. If the problem persists, please contact the server administrator.'
+      );
+      await logtail.error(
+        'Error creating a message',
+        JSON.parse(JSON.stringify(e))
+      );
     }
   }
 };

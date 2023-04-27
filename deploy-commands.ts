@@ -4,6 +4,7 @@ import { config } from 'dotenv';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 import { generateImage } from './commands/generateImage';
+import { logtail } from './utils/logtailConfig';
 
 config();
 
@@ -15,5 +16,10 @@ rest
       command.toJSON()
     )
   })
-  .then(() => console.info('Successfully registered application commands.'))
-  .catch(console.error);
+  .then(() => logtail.debug('Successfully registered application commands.'))
+  .catch(err =>
+    logtail.error(
+      'Error registering application commands.',
+      JSON.parse(JSON.stringify(err))
+    )
+  );

@@ -11,5 +11,6 @@ declare namespace NodeJS {
     OPENAI_ORG: string;
     FIREBASE_API_KEY: string;
     FIREBASE_APP_ID: string;
+    LOGTAIL_KEY: string;
   }
 }
