@@ -7,6 +7,12 @@ export const ready: Event<'ready'> = {
   once: true,
   async execute(client) {
     console.info(`Logged in as ${client.user.tag}!`);
+    console.log('log');
+    console.error('error');
+    console.warn('warn');
+    console.debug('debug');
+    console.trace('trace');
+    console.info('info');
     createAnniversaryMessages(client);
 
     client.user.setPresence({
