@@ -58,36 +58,51 @@ export const generateImage: Command = {
       }, 60000);
 
       const createdAt = openAIResponse.data.created;
-      const url = openAIResponse.data.data[0].b64_json;
-      if (!url) return;
+      const b64Json = openAIResponse.data.data[0].b64_json;
+      if (!b64Json) return;
 
       const imageRef = ref(storage, `${createdAt}.jpg`);
+      const snapshot = await uploadString(imageRef, b64Json, 'base64');
+      const url = await getDownloadURL(snapshot.ref);
+      await logtail.info('Image uploaded to Firebase', { url });
 
-      uploadString(imageRef, url, 'base64').then(async snapshot => {
-        const url = await getDownloadURL(snapshot.ref);
-        await logtail.info('Image uploaded to Firebase', { url });
-
-        interaction.channel?.send({
-          embeds: [
-            {
-              image: {
-                url
+      interaction.channel?.send({
+        embeds: [
+          {
+            image: {
+              url
+            },
+            fields: [
+              {
+                name: 'Description',
+                value: description
               },
-              fields: [
-                {
-                  name: 'Description',
-                  value: description
-                },
-                {
-                  name: 'Author',
-                  value: userMention(interaction.user.id)
-                }
-              ]
-            }
-          ]
-        });
+              {
+                name: 'Author',
+                value: userMention(interaction.user.id)
+              }
+            ]
+          }
+        ]
       });
     } catch (e) {
+      interaction.channel?.send({
+        content: 'Sorry! There was an error generating an image.',
+        embeds: [
+          {
+            fields: [
+              {
+                name: 'Description',
+                value: description
+              },
+              {
+                name: 'Author',
+                value: userMention(interaction.user.id)
+              }
+            ]
+          }
+        ]
+      });
       await logtail.error(
         'Error generating image',
         JSON.parse(JSON.stringify(e))
