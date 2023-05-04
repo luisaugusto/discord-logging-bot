@@ -20,12 +20,17 @@ const isValidContent = (content?: string): content is string => {
 
 export const messageReactionAdd: Event<'messageReactionAdd'> = {
   name: 'messageReactionAdd',
-  async execute(reaction) {
+  async execute(partialReaction) {
+    const reaction = await partialReaction.fetch();
+
+    if (reaction.count > 1) return;
     const name = reaction.emoji.name;
     // Check if the emoji is a country flag
     const reg = /\uD83C[\uDDE6-\uDDFF]\uD83C[\uDDE6-\uDDFF]/;
     if (!name || !reg.test(name)) return;
     const message = await reaction.message.fetch();
+    if (message.system) return;
+
     const channel = message.channel;
     if (channel.isThread() || channel.isDMBased() || channel.isVoiceBased())
       return;
