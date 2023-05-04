@@ -10,6 +10,7 @@ import { Client, ClientEvents, GatewayIntentBits, Partials } from 'discord.js';
 import type { Event } from './events/event';
 import { mallCopRadio } from './commands/mallCopRadio';
 import { generateImage } from './commands/generateImage';
+import { messageReactionAdd } from './events/messageReactionAdd';
 
 config();
 
@@ -20,11 +21,11 @@ const client = new Client({
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.DirectMessages,
-    GatewayIntentBits.GuildVoiceStates
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildMessageReactions
   ],
   // https://discordjs.guide/popular-topics/partials.html#enabling-partials
-  // used for the message delete event
-  partials: [Partials.Message, Partials.Channel]
+  partials: [Partials.Message, Partials.Channel, Partials.Reaction]
 });
 
 const events: Event<keyof ClientEvents>[] = [
@@ -33,7 +34,8 @@ const events: Event<keyof ClientEvents>[] = [
   guildMemberUpdate,
   messageCreate,
   messageDelete,
-  voiceStateUpdate
+  voiceStateUpdate,
+  messageReactionAdd
 ];
 
 events.forEach(event => {
