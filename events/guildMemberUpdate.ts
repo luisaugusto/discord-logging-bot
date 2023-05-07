@@ -1,20 +1,20 @@
-import type { Event } from './event';
-import { getLoggingChannel } from '../utils/getLoggingChannel';
-import { userMention } from '@discordjs/builders';
-import getGif from '../utils/getGif';
+import type { Event } from "./event";
+import { getLoggingChannel } from "../utils/getLoggingChannel";
+import { userMention } from "@discordjs/builders";
+import getGif from "../utils/getGif";
 
-export const guildMemberUpdate: Event<'guildMemberUpdate'> = {
-  name: 'guildMemberUpdate',
+export const guildMemberUpdate: Event<"guildMemberUpdate"> = {
+  name: "guildMemberUpdate",
   async execute(oldMember, newMember) {
     if (oldMember.premiumSince !== null || newMember.premiumSince === null)
       return;
 
     const generalChannel = await getLoggingChannel(
       newMember.guild.channels,
-      '💬general'
+      "💬general"
     );
 
-    const gif = await getGif({ id: 'xT39DndqIF1Xn1Om3e' });
+    const gif = await getGif({ id: "xT39DndqIF1Xn1Om3e" });
 
     await generalChannel.send({
       content: `YOOOOOO CAN I GET SOME POGS IN THE CHAT??? ${userMention(
@@ -24,12 +24,12 @@ export const guildMemberUpdate: Event<'guildMemberUpdate'> = {
         ? [
             {
               image: {
-                url: gif
+                url: gif,
               },
-              timestamp: new Date().toISOString()
-            }
+              timestamp: new Date().toISOString(),
+            },
           ]
-        : undefined
+        : undefined,
     });
-  }
+  },
 };

@@ -1,10 +1,10 @@
-import type { Event } from './event';
-import { getLoggingChannel } from '../utils/getLoggingChannel';
-import { userMention } from '@discordjs/builders';
-import getGif from '../utils/getGif';
+import type { Event } from "./event";
+import { getLoggingChannel } from "../utils/getLoggingChannel";
+import { userMention } from "@discordjs/builders";
+import getGif from "../utils/getGif";
 
-export const guildMemberAdd: Event<'guildMemberAdd'> = {
-  name: 'guildMemberAdd',
+export const guildMemberAdd: Event<"guildMemberAdd"> = {
+  name: "guildMemberAdd",
   async execute(member) {
     const welcomeChannel = await getLoggingChannel(
       member.guild.channels,
@@ -12,8 +12,8 @@ export const guildMemberAdd: Event<'guildMemberAdd'> = {
     );
 
     const gif = await getGif({
-      tag: 'hello',
-      rating: 'pg-13'
+      tag: "hello",
+      rating: "pg-13",
     });
 
     await welcomeChannel.send({
@@ -24,12 +24,12 @@ export const guildMemberAdd: Event<'guildMemberAdd'> = {
         ? [
             {
               image: {
-                url: gif
+                url: gif,
               },
-              timestamp: new Date().toISOString()
-            }
+              timestamp: new Date().toISOString(),
+            },
           ]
-        : undefined
+        : undefined,
     });
-  }
+  },
 };

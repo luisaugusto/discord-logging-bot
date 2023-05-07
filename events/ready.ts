@@ -1,10 +1,10 @@
-import type { Event } from './event';
-import { ActivityType } from 'discord-api-types/v10';
-import createAnniversaryMessages from '../utils/createAnniversaryMessages';
-import { logtail } from '../utils/logtailConfig';
+import type { Event } from "./event";
+import { ActivityType } from "discord-api-types/v10";
+import createAnniversaryMessages from "../utils/createAnniversaryMessages";
+import { logtail } from "../utils/logtailConfig";
 
-export const ready: Event<'ready'> = {
-  name: 'ready',
+export const ready: Event<"ready"> = {
+  name: "ready",
   once: true,
   async execute(client) {
     await logtail.debug(`Logged in as ${client.user.tag}!`);
@@ -14,9 +14,9 @@ export const ready: Event<'ready'> = {
       activities: [
         {
           type: ActivityType.Watching,
-          name: 'You (v2.3.0)'
-        }
-      ]
+          name: "You (v2.4.0)",
+        },
+      ],
     });
-  }
+  },
 };

@@ -1,16 +1,17 @@
-import { guildMemberUpdate } from './events/guildMemberUpdate';
-import { config } from 'dotenv';
-import { ready } from './events/ready';
-import { guildMemberAdd } from './events/guildMemberAdd';
-import { messageDelete } from './events/messageDelete';
-import { messageCreate } from './events/messageCreate';
-import { voiceStateUpdate } from './events/voiceStateUpdate';
-import { report } from './commands/report';
-import { Client, ClientEvents, GatewayIntentBits, Partials } from 'discord.js';
-import type { Event } from './events/event';
-import { mallCopRadio } from './commands/mallCopRadio';
-import { generateImage } from './commands/generateImage';
-import { messageReactionAdd } from './events/messageReactionAdd';
+import { guildMemberUpdate } from "./events/guildMemberUpdate";
+import { config } from "dotenv";
+import { ready } from "./events/ready";
+import { guildMemberAdd } from "./events/guildMemberAdd";
+import { messageDelete } from "./events/messageDelete";
+import { messageCreate } from "./events/messageCreate";
+import { voiceStateUpdate } from "./events/voiceStateUpdate";
+import { report } from "./commands/report";
+import { Client, ClientEvents, GatewayIntentBits, Partials } from "discord.js";
+import type { Event } from "./events/event";
+import { mallCopRadio } from "./commands/mallCopRadio";
+import { generateImage } from "./commands/generateImage";
+import { messageReactionAdd } from "./events/messageReactionAdd";
+import { logtail } from "./utils/logtailConfig";
 
 config();
 
@@ -22,10 +23,10 @@ const client = new Client({
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.DirectMessages,
     GatewayIntentBits.GuildVoiceStates,
-    GatewayIntentBits.GuildMessageReactions
+    GatewayIntentBits.GuildMessageReactions,
   ],
   // https://discordjs.guide/popular-topics/partials.html#enabling-partials
-  partials: [Partials.Message, Partials.Channel, Partials.Reaction]
+  partials: [Partials.Message, Partials.Channel, Partials.Reaction],
 });
 
 const events: Event<keyof ClientEvents>[] = [
@@ -35,10 +36,10 @@ const events: Event<keyof ClientEvents>[] = [
   messageCreate,
   messageDelete,
   voiceStateUpdate,
-  messageReactionAdd
+  messageReactionAdd,
 ];
 
-events.forEach(event => {
+events.forEach((event) => {
   // The ready event should only run once, when the app is ready
   if (event.once) client.once(event.name, (...args) => event.execute(...args));
   else client.on(event.name, (...args) => event.execute(...args));
@@ -46,13 +47,22 @@ events.forEach(event => {
 
 const commands = [report, mallCopRadio, generateImage];
 
-client.on('interactionCreate', async interaction => {
+client.on("interactionCreate", async (interaction) => {
   if (!interaction.isContextMenuCommand() && !interaction.isChatInputCommand())
     return;
   const { commandName } = interaction;
 
   const command = commands.find(({ data }) => data.name === commandName);
-  command?.execute(interaction);
+  await command?.execute(interaction);
 });
 
-(() => client.login(process.env.TOKEN))();
+(() => {
+  client
+    .login(process.env.TOKEN)
+    .catch((err) =>
+      logtail.error(
+        "Could not login to Discord.",
+        JSON.parse(JSON.stringify(err))
+      )
+    );
+})();

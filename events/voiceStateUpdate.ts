@@ -1,8 +1,9 @@
-import type { Event } from './event';
-import { getLoggingChannel } from '../utils/getLoggingChannel';
+import type { Event } from "./event";
+import { getLoggingChannel } from "../utils/getLoggingChannel";
+import { userMention, channelMention } from "discord.js";
 
-export const voiceStateUpdate: Event<'voiceStateUpdate'> = {
-  name: 'voiceStateUpdate',
+export const voiceStateUpdate: Event<"voiceStateUpdate"> = {
+  name: "voiceStateUpdate",
   async execute(oldState, newState) {
     const channel = await getLoggingChannel(oldState.guild.channels);
     if (!channel) return;
@@ -13,17 +14,24 @@ export const voiceStateUpdate: Event<'voiceStateUpdate'> = {
     if (newState.channelId && newState.member) {
       if (oldState.channelId) {
         await channel.send(
-          `<@${newState.member.id}> has left <#${oldState.channelId}> and joined <#${newState.channelId}>.`
+          `${userMention(newState.member.id)} has left ${channelMention(
+            oldState.channelId
+          )} and joined ${channelMention(newState.channelId)}.`
         );
       } else {
         await channel.send(
-          `<@${newState.member.id}> has joined <#${newState.channelId}>.`
+          `${userMention(newState.member.id)} has joined ${channelMention(
+            newState.channelId
+          )}.`
         );
       }
     } else {
+      const memberId = oldState.member?.id;
+      const channelId = oldState.channelId;
+      if (!channelId || !memberId) return;
       await channel.send(
-        `<@${oldState.member?.id}> has left <#${oldState.channelId}>.`
+        `${userMention(memberId)} has left ${channelMention(channelId)}.`
       );
     }
-  }
+  },
 };

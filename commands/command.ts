@@ -1,8 +1,8 @@
 import {
   SlashCommandBuilder,
-  SlashCommandSubcommandsOnlyBuilder
-} from '@discordjs/builders';
-import { CommandInteraction, ContextMenuCommandInteraction } from 'discord.js';
+  SlashCommandSubcommandsOnlyBuilder,
+} from "@discordjs/builders";
+import { CommandInteraction, ContextMenuCommandInteraction } from "discord.js";
 
 // To learn about message commands, visit
 // https://discord.com/developers/docs/interactions/application-commands#message-commands
@@ -21,16 +21,16 @@ export const createMessageApplication = (name: string): MessageApplication => ({
   type: 3,
   toJSON: () => ({
     name,
-    type: 3
-  })
+    type: 3,
+  }),
 });
 
 export interface Command {
   data:
-    | Omit<SlashCommandBuilder, 'addSubcommandGroup' | 'addSubcommand'>
+    | Omit<SlashCommandBuilder, "addSubcommandGroup" | "addSubcommand">
     | MessageApplication
     | SlashCommandSubcommandsOnlyBuilder;
   execute(
     interaction: CommandInteraction | ContextMenuCommandInteraction
-  ): void;
+  ): Promise<void>;
 }

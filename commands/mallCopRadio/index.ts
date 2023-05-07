@@ -1,39 +1,39 @@
-import { Command } from '../command';
+import { Command } from "../command";
 import {
   SlashCommandBuilder,
-  SlashCommandSubcommandBuilder
-} from '@discordjs/builders';
-import { CommandInteraction } from 'discord.js';
-import { play } from './play';
+  SlashCommandSubcommandBuilder,
+} from "@discordjs/builders";
+import { CommandInteraction, InteractionResponse } from "discord.js";
+import { play } from "./play";
 
 enum SubCommand {
-  PLAY = 'play'
+  PLAY = "play",
   // SKIP = 'skip'
 }
 
 const subCommandActions: Record<
   SubCommand,
-  (interaction: CommandInteraction) => void
+  (interaction: CommandInteraction) => Promise<InteractionResponse | undefined>
 > = {
-  [SubCommand.PLAY]: play
+  [SubCommand.PLAY]: play,
 };
 
 export const mallCopRadio: Command = {
   data: new SlashCommandBuilder()
-    .setName('mall-cop-radio')
-    .setDescription('Music management')
+    .setName("mall-cop-radio")
+    .setDescription("Music management")
     .addSubcommand(
       new SlashCommandSubcommandBuilder()
         .setName(SubCommand.PLAY)
-        .setDescription('Add music from YouTube to a queue and play it')
-        .addStringOption(option =>
-          option.setName('url').setDescription('YouTube URL').setRequired(true)
+        .setDescription("Add music from YouTube to a queue and play it")
+        .addStringOption((option) =>
+          option.setName("url").setDescription("YouTube URL").setRequired(true)
         )
     ),
   async execute(interaction) {
     if (!interaction.isChatInputCommand()) return;
 
     const subCommand = interaction.options.getSubcommand(true) as SubCommand;
-    subCommandActions[subCommand](interaction);
-  }
+    await subCommandActions[subCommand](interaction);
+  },
 };
