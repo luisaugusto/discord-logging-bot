@@ -38,22 +38,8 @@
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^3.0.9",
-    "lint-staged": "^9.4.2",
     "prettier": "^2.3.1",
     "typescript": "^5.0.4"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.{ts,json}": [
-      "eslint --fix",
-      "prettier --write",
-      "git add"
-    ]
   },
   "engines": {
     "node": ">=17.0.0 <18"
