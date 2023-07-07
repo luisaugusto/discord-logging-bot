@@ -23,7 +23,7 @@ export const messageCreate: Event<"messageCreate"> = {
 
     try {
       const openAIResponse = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4",
         messages: [
           {
             role: "system",
@@ -41,7 +41,7 @@ export const messageCreate: Event<"messageCreate"> = {
 
       openAIResponse.data.choices.forEach((choice) => {
         const { message: choiceMessage } = choice;
-        if (!choiceMessage) return;
+        if (!choiceMessage?.content) return;
 
         const splitMessage = choiceMessage.content.match(/(.|[\r\n]){1,1500}/g);
         splitMessage?.map((chunk) => message.channel.send(chunk));

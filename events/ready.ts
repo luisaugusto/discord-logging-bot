@@ -8,13 +8,14 @@ export const ready: Event<"ready"> = {
   once: true,
   async execute(client) {
     await logtail.debug(`Logged in as ${client.user.tag}!`);
+    console.log(`Logged in as ${client.user.tag}!`);
     await createAnniversaryMessages(client);
 
     client.user.setPresence({
       activities: [
         {
           type: ActivityType.Watching,
-          name: "You (v2.4.0)",
+          name: "You (v2.5.0)",
         },
       ],
     });

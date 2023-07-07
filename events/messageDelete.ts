@@ -2,6 +2,7 @@ import type { Event } from "./event";
 import { getLoggingChannel } from "../utils/getLoggingChannel";
 import { createMessage } from "../utils/createMessage";
 import { AuditLogEvent, channelMention, ChannelType } from "discord.js";
+import { logtail } from "../utils/logtailConfig";
 
 export const messageDelete: Event<"messageDelete"> = {
   name: "messageDelete",
@@ -17,8 +18,10 @@ export const messageDelete: Event<"messageDelete"> = {
     const channel = await getLoggingChannel(message.guild.channels);
     if (!channel) return;
 
-    const fullMessage = await message.fetch().catch((err) => {
-      console.error(err);
+    const fullMessage = await message.fetch().catch(async (err) => {
+      await logtail.info("Error fetching message", {
+        error: String(err),
+      });
     });
 
     const messageAuthorId = message.author?.id;
