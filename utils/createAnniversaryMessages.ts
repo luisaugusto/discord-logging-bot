@@ -28,11 +28,11 @@ const getUsersWithAnniversaries = async (guild: Guild) => {
 
 const sendMessageForUsers = async (
   users: Collection<string, GuildMember>,
-  guild: Guild
+  guild: Guild,
 ) => {
   const anniversaryChannel = await getLoggingChannel(
     guild.channels,
-    process.env.ANNIVERSARY_CHANNEL
+    process.env.ANNIVERSARY_CHANNEL,
   );
 
   return Promise.all(
@@ -46,7 +46,7 @@ const sendMessageForUsers = async (
       });
       return anniversaryChannel.send({
         content: `Happy discord anniversary to ${userMention(
-          id
+          id,
         )}, who has been in the server for a total of ${difference} year${
           difference > 1 ? "s" : ""
         }! 🎉🎊🥳`,
@@ -59,7 +59,7 @@ const sendMessageForUsers = async (
           },
         ],
       });
-    })
+    }),
   );
 };
 
@@ -72,7 +72,7 @@ const triggerMessages = async (client: Client<true>) => {
       const users = await getUsersWithAnniversaries(guild);
       await logtail.debug(`Found ${users.size} users with anniversaries.`);
       if (users.size > 0) await sendMessageForUsers(users, guild);
-    })
+    }),
   );
 
   await createAnniversaryMessages(client);
@@ -81,7 +81,7 @@ const triggerMessages = async (client: Client<true>) => {
 const createAnniversaryMessages = async (client: Client<true>) => {
   const timeUntilNextDay = differenceInMilliseconds(
     startOfTomorrow(),
-    new Date()
+    new Date(),
   );
   await logtail.debug(`Next anniversary check in ${timeUntilNextDay}ms`);
 

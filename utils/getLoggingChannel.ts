@@ -8,12 +8,12 @@ import {
 
 export const getLoggingChannel = async (
   guildChannelManager: GuildChannelManager,
-  loggingChannel: string = process.env.LOGGING_CHANNEL
+  loggingChannel: string = process.env.LOGGING_CHANNEL,
 ): Promise<TextChannel> => {
   const channel = guildChannelManager.cache.find(
     (channel) =>
       channel.type === ChannelType.GuildText &&
-      channel.name.toLowerCase() === loggingChannel
+      channel.name.toLowerCase() === loggingChannel,
   ) as TextChannel | undefined;
 
   if (channel) return channel;

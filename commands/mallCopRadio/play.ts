@@ -18,7 +18,7 @@ export const play = async (interaction: CommandInteraction) => {
   const url = interaction.options.getString("url", true);
   const voiceStates = interaction.guild.voiceStates.cache;
   const activeVoiceState = voiceStates.find(
-    (state) => state.member?.user === user
+    (state) => state.member?.user === user,
   );
 
   if (!activeVoiceState?.member?.voice.channel)
@@ -54,7 +54,7 @@ export const play = async (interaction: CommandInteraction) => {
     ytdl(url, {
       filter: "audioonly",
       opusEncoded: true,
-    })
+    }),
   );
 
   player.play(music);

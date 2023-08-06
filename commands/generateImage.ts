@@ -21,7 +21,7 @@ export const generateImage: Command = {
       option
         .setName("description")
         .setDescription("Description of the image")
-        .setRequired(true)
+        .setRequired(true),
     ),
   async execute(interaction) {
     if (!interaction.isChatInputCommand()) return;
@@ -49,7 +49,7 @@ export const generateImage: Command = {
       });
       await logtail.info(
         "Image generated",
-        JSON.parse(JSON.stringify(openAIResponse.data))
+        JSON.parse(JSON.stringify(openAIResponse.data)),
       );
 
       canGenerateImage = false;
@@ -105,7 +105,7 @@ export const generateImage: Command = {
       });
       await logtail.error(
         "Error generating image",
-        JSON.parse(JSON.stringify(e))
+        JSON.parse(JSON.stringify(e)),
       );
     }
   },

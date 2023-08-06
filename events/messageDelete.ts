@@ -36,17 +36,17 @@ export const messageDelete: Event<"messageDelete"> = {
       await channel.send(
         createMessage(
           fullMessage,
-          `<@${auditLog.executor.id}> has deleted a message in <#${message.channelId}> :eyes:`
-        )
+          `<@${auditLog.executor.id}> has deleted a message in <#${message.channelId}> :eyes:`,
+        ),
       );
     } else {
       // If there's no audit log, and we just have a partial message, the only data we can really get is the channel id.
       await channel.send(
         `A message was deleted in ${channelMention(
-          message.channelId
+          message.channelId,
         )}, but I could not find any other details about this action. Sorry!\nMessage ID: ${
           message.id
-        }`
+        }`,
       );
     }
   },

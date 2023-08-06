@@ -11,14 +11,14 @@ export const guildMemberUpdate: Event<"guildMemberUpdate"> = {
 
     const generalChannel = await getLoggingChannel(
       newMember.guild.channels,
-      "💬general"
+      "💬general",
     );
 
     const gif = await getGif({ id: "xT39DndqIF1Xn1Om3e" });
 
     await generalChannel.send({
       content: `YOOOOOO CAN I GET SOME POGS IN THE CHAT??? ${userMention(
-        newMember.id
+        newMember.id,
       )} JUST BOOSTED THE SERVER 🥳🚀🔥`,
       embeds: gif
         ? [

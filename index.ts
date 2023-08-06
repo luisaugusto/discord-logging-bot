@@ -62,7 +62,7 @@ client.on("interactionCreate", async (interaction) => {
     .catch((err) =>
       logtail.error(
         "Could not login to Discord.",
-        JSON.parse(JSON.stringify(err))
-      )
+        JSON.parse(JSON.stringify(err)),
+      ),
     );
 })();

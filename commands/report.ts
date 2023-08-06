@@ -18,12 +18,12 @@ export const report: Command = {
     });
     await interaction.user.send(
       `Hello, ${userMention(
-        interaction.user.id
+        interaction.user.id,
       )}! You recently asked to report a message in ${channelMention(
-        interaction.channelId
+        interaction.channelId,
       )} on the ${
         interaction.guild.name
-      } server. Could you tell me a little more about why you reported this?`
+      } server. Could you tell me a little more about why you reported this?`,
     );
 
     const listener = (message: Message) => {
@@ -32,16 +32,16 @@ export const report: Command = {
         if (message.author.id !== interaction.user.id) return;
         const channel = await getLoggingChannel(
           interaction.guild.channels,
-          process.env.REPORTS_CHANNEL
+          process.env.REPORTS_CHANNEL,
         );
         if (!channel) return;
 
         await interaction.user.send(
-          `Thanks for letting me know! I'll forward this information over the to admins in the server for them to review and take the appropriate action.`
+          `Thanks for letting me know! I'll forward this information over the to admins in the server for them to review and take the appropriate action.`,
         );
 
         const reportedMessage = await interaction.channel?.messages.fetch(
-          interaction.targetId
+          interaction.targetId,
         );
 
         if (!reportedMessage) return;
@@ -50,22 +50,22 @@ export const report: Command = {
           createMessage(
             reportedMessage,
             `:rotating_light: ${String(
-              interaction.guild.roles.everyone
+              interaction.guild.roles.everyone,
             )} A message has been reported by ${userMention(
-              interaction.user.id
+              interaction.user.id,
             )} in ${channelMention(interaction.channelId)}\n${
               reportedMessage.url
             }`,
-            [{ name: "Reason for Reporting:", value: message.content }]
-          )
+            [{ name: "Reason for Reporting:", value: message.content }],
+          ),
         );
 
         interaction.client.removeListener("messageCreate", listener);
       })().catch(async (err) =>
         logtail.error(
           "Error in report command",
-          JSON.parse(JSON.stringify(err))
-        )
+          JSON.parse(JSON.stringify(err)),
+        ),
       );
     };
 

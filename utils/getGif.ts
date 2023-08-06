@@ -31,8 +31,8 @@ const getGif = async ({
           id,
           tag,
           rating,
-        })
-      )
+        }),
+      ),
     );
   }
 };

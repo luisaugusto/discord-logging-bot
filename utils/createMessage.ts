@@ -9,7 +9,7 @@ interface Field {
 export const createMessage = (
   messageData: Message,
   content?: string,
-  fields: Field[] = []
+  fields: Field[] = [],
 ): MessagePayload | MessageCreateOptions => ({
   content,
   embeds: [

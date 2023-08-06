@@ -8,7 +8,7 @@ export const guildMemberAdd: Event<"guildMemberAdd"> = {
   async execute(member) {
     const welcomeChannel = await getLoggingChannel(
       member.guild.channels,
-      process.env.WELCOME_CHANNEL
+      process.env.WELCOME_CHANNEL,
     );
 
     const gif = await getGif({

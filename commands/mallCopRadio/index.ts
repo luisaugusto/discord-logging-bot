@@ -27,8 +27,8 @@ export const mallCopRadio: Command = {
         .setName(SubCommand.PLAY)
         .setDescription("Add music from YouTube to a queue and play it")
         .addStringOption((option) =>
-          option.setName("url").setDescription("YouTube URL").setRequired(true)
-        )
+          option.setName("url").setDescription("YouTube URL").setRequired(true),
+        ),
     ),
   async execute(interaction) {
     if (!interaction.isChatInputCommand()) return;

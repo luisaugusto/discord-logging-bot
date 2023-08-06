@@ -13,13 +13,13 @@ const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 rest
   .put(Routes.applicationCommands(process.env.CLIENT_ID), {
     body: [report.data, mallCopRadio.data, generateImage.data].map((command) =>
-      command.toJSON()
+      command.toJSON(),
     ),
   })
   .then(() => logtail.debug("Successfully registered application commands."))
   .catch((err) =>
     logtail.error(
       "Error registering application commands.",
-      JSON.parse(JSON.stringify(err))
-    )
+      JSON.parse(JSON.stringify(err)),
+    ),
   );

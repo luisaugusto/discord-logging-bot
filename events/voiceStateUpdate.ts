@@ -15,14 +15,14 @@ export const voiceStateUpdate: Event<"voiceStateUpdate"> = {
       if (oldState.channelId) {
         await channel.send(
           `${userMention(newState.member.id)} has left ${channelMention(
-            oldState.channelId
-          )} and joined ${channelMention(newState.channelId)}.`
+            oldState.channelId,
+          )} and joined ${channelMention(newState.channelId)}.`,
         );
       } else {
         await channel.send(
           `${userMention(newState.member.id)} has joined ${channelMention(
-            newState.channelId
-          )}.`
+            newState.channelId,
+          )}.`,
         );
       }
     } else {
@@ -30,7 +30,7 @@ export const voiceStateUpdate: Event<"voiceStateUpdate"> = {
       const channelId = oldState.channelId;
       if (!channelId || !memberId) return;
       await channel.send(
-        `${userMention(memberId)} has left ${channelMention(channelId)}.`
+        `${userMention(memberId)} has left ${channelMention(channelId)}.`,
       );
     }
   },

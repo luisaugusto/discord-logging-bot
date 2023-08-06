@@ -36,7 +36,7 @@ export const messageCreate: Event<"messageCreate"> = {
 
       await logtail.info(
         message.cleanContent,
-        JSON.parse(JSON.stringify(openAIResponse.data))
+        JSON.parse(JSON.stringify(openAIResponse.data)),
       );
 
       openAIResponse.data.choices.forEach((choice) => {
@@ -48,11 +48,11 @@ export const messageCreate: Event<"messageCreate"> = {
       });
     } catch (e) {
       await message.channel.send(
-        "Sorry, I encountered an error. Try asking again. If the problem persists, please contact the server administrator."
+        "Sorry, I encountered an error. Try asking again. If the problem persists, please contact the server administrator.",
       );
       await logtail.error(
         "Error creating a message",
-        JSON.parse(JSON.stringify(e))
+        JSON.parse(JSON.stringify(e)),
       );
     }
   },

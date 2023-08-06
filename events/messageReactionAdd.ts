@@ -19,7 +19,7 @@ const isValidName = (name: string | null): name is string => {
 
 const isValidContent = (
   name: string,
-  content: unknown
+  content: unknown,
 ): content is Record<
   "country_language" | "translation" | "country",
   string
@@ -34,7 +34,7 @@ const isValidContent = (
 };
 
 const isValidChannel = (
-  channel: Message["channel"]
+  channel: Message["channel"],
 ): channel is NewsChannel | TextChannel =>
   !channel.isThread() && !channel.isDMBased() && !channel.isVoiceBased();
 
@@ -76,17 +76,18 @@ export const messageReactionAdd: Event<"messageReactionAdd"> = {
 
       const { country_language, translation } = parsedContent;
       const splitMessage = translation.match(/(.|[\r\n]){1,1800}/g);
-      splitMessage?.map((chunk) =>
-        message.thread?.send(`**${name} ${country_language}**\n${chunk}`)
+      splitMessage?.map(
+        (chunk) =>
+          message.thread?.send(`**${name} ${country_language}**\n${chunk}`),
       );
     } catch (e) {
       await checkForThread(message);
       await message.thread?.send(
-        `Sorry, I encountered an error generating translation for the ${name} reaction. Try asking again. If the problem persists, please contact the server administrator.`
+        `Sorry, I encountered an error generating translation for the ${name} reaction. Try asking again. If the problem persists, please contact the server administrator.`,
       );
       await logtail.error(
         "Error creating a message",
-        JSON.parse(JSON.stringify(e))
+        JSON.parse(JSON.stringify(e)),
       );
     }
   },
