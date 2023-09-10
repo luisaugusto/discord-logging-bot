@@ -1,5 +1,4 @@
 import { guildMemberUpdate } from "./events/guildMemberUpdate";
-import { config } from "dotenv";
 import { ready } from "./events/ready";
 import { guildMemberAdd } from "./events/guildMemberAdd";
 import { messageDelete } from "./events/messageDelete";
@@ -8,12 +7,9 @@ import { voiceStateUpdate } from "./events/voiceStateUpdate";
 import { report } from "./commands/report";
 import { Client, ClientEvents, GatewayIntentBits, Partials } from "discord.js";
 import type { Event } from "./events/event";
-import { mallCopRadio } from "./commands/mallCopRadio";
 import { generateImage } from "./commands/generateImage";
 import { messageReactionAdd } from "./events/messageReactionAdd";
 import { logtail } from "./utils/logtailConfig";
-
-config();
 
 const client = new Client({
   // https://discord.com/developers/docs/topics/gateway#list-of-intents
@@ -45,7 +41,7 @@ events.forEach((event) => {
   else client.on(event.name, (...args) => event.execute(...args));
 });
 
-const commands = [report, mallCopRadio, generateImage];
+const commands = [report, generateImage];
 
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isContextMenuCommand() && !interaction.isChatInputCommand())
