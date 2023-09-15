@@ -20,11 +20,8 @@ export const messageCreate: Event<"messageCreate"> = {
       .reverse();
 
     try {
-      // const responseMessage = await message.channel.send("▋");
-
       const openAIResponse = await openai.chat.completions.create({
         model: "gpt-4",
-        // stream: true,
         messages: [
           {
             role: "system",
