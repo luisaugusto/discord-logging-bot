@@ -42,7 +42,7 @@ export const generateImage: Command = {
     });
     const description = interaction.options.getString("description", true);
     try {
-      const openAIResponse = await openai.createImage({
+      const openAIResponse = await openai.images.generate({
         prompt: description,
         size: "512x512",
         response_format: "b64_json",
@@ -57,8 +57,8 @@ export const generateImage: Command = {
         canGenerateImage = true;
       }, 60000);
 
-      const createdAt = openAIResponse.data.created;
-      const b64Json = openAIResponse.data.data[0].b64_json;
+      const createdAt = openAIResponse.created;
+      const b64Json = openAIResponse.data[0].b64_json;
       if (!b64Json) return;
 
       const imageRef = ref(storage, `${createdAt}.jpg`);

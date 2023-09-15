@@ -18,7 +18,6 @@ const isValidName = (name: string | null): name is string => {
 };
 
 const isValidContent = (
-  name: string,
   content: unknown,
 ): content is Record<
   "country_language" | "translation" | "country",
@@ -53,8 +52,8 @@ export const messageReactionAdd: Event<"messageReactionAdd"> = {
     if (!isValidChannel(channel)) return;
 
     try {
-      const openAIResponse = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo",
+      const openAIResponse = await openai.chat.completions.create({
+        model: "gpt-4",
         temperature: 0,
         messages: [
           {
@@ -65,14 +64,14 @@ export const messageReactionAdd: Event<"messageReactionAdd"> = {
         ],
       });
 
-      await logtail.info(name, JSON.parse(JSON.stringify(openAIResponse.data)));
+      await logtail.info(name, JSON.parse(JSON.stringify(openAIResponse)));
 
-      const content = openAIResponse.data.choices[0].message?.content;
+      const content = openAIResponse.choices[0].message?.content;
       console.log(content);
       await checkForThread(message);
 
       const parsedContent: unknown = JSON.parse(String(content));
-      if (!isValidContent(name, parsedContent)) return;
+      if (!isValidContent(parsedContent)) return;
 
       const { country_language, translation } = parsedContent;
       const splitMessage = translation.match(/(.|[\r\n]){1,1800}/g);

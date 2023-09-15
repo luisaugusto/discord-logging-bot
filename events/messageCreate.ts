@@ -1,6 +1,6 @@
 import type { Event } from "./event";
 import { openai } from "../utils/openAIConfig";
-import { ChatCompletionRequestMessage } from "openai";
+import { ChatCompletionMessageParam } from "openai/src/resources/chat/completions";
 import { logtail } from "../utils/logtailConfig";
 
 export const messageCreate: Event<"messageCreate"> = {
@@ -11,19 +11,20 @@ export const messageCreate: Event<"messageCreate"> = {
 
     const prevMessages = await message.channel.messages.fetch({ limit: 20 });
 
-    // For some reason, I can't map the messages in the response
-    const mappedMessages: ChatCompletionRequestMessage[] = [];
-    prevMessages.forEach((message) => {
-      mappedMessages.unshift({
+    const mappedMessages: ChatCompletionMessageParam[] = prevMessages
+      .map<ChatCompletionMessageParam>((message) => ({
         role:
           message.author.id === message.client.user.id ? "assistant" : "user",
         content: message.cleanContent,
-      });
-    });
+      }))
+      .reverse();
 
     try {
-      const openAIResponse = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo",
+      // const responseMessage = await message.channel.send("▋");
+
+      const openAIResponse = await openai.chat.completions.create({
+        model: "gpt-4",
+        // stream: true,
         messages: [
           {
             role: "system",
@@ -36,10 +37,10 @@ export const messageCreate: Event<"messageCreate"> = {
 
       await logtail.info(
         message.cleanContent,
-        JSON.parse(JSON.stringify(openAIResponse.data)),
+        JSON.parse(JSON.stringify(openAIResponse)),
       );
 
-      openAIResponse.data.choices.forEach((choice) => {
+      openAIResponse.choices.forEach((choice) => {
         const { message: choiceMessage } = choice;
         if (!choiceMessage?.content) return;
 
