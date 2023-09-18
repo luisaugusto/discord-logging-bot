@@ -34,7 +34,6 @@ export const report: Command = {
           interaction.guild.channels,
           process.env.REPORTS_CHANNEL,
         );
-        if (!channel) return;
 
         await interaction.user.send(
           `Thanks for letting me know! I'll forward this information over the to admins in the server for them to review and take the appropriate action.`,
