@@ -31,20 +31,12 @@ export const checkModeration = async (m: Message) => {
       const percentage = Math.floor(
         result.category_scores[category as keyof Moderation.Categories] * 100,
       );
+
+      if (percentage < 60) continue;
       reason.push(`${category}: ${percentage}%`);
     }
 
-    const author = await message.guild.members.fetch(message.author.id);
-    let isTimeout = true;
-    await author
-      .timeout(60_000 * 2, "Message flagged by FBI Bot")
-      .catch(async () => {
-        isTimeout = false;
-        await logtail.info(
-          "Could not timeout user",
-          JSON.parse(JSON.stringify(author)),
-        );
-      });
+    if (reason.length === 0) return;
 
     await channel.send(
       createMessage(
@@ -53,7 +45,7 @@ export const checkModeration = async (m: Message) => {
           message.guild.roles.everyone,
         )} I've automatically reported a message that potentially violates moderation policies in ${
           message.url
-        }.${isTimeout ? " The author has been timed out for 2 minutes." : ""}`,
+        }.`,
         [{ name: "Reason for Reporting:", value: reason.join("\n") }],
       ),
     );
