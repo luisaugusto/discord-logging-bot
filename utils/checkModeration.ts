@@ -32,7 +32,7 @@ export const checkModeration = async (m: Message) => {
         result.category_scores[category as keyof Moderation.Categories] * 100,
       );
 
-      if (percentage < 60) continue;
+      if (percentage < 80) continue;
       reason.push(`${category}: ${percentage}%`);
     }
 
