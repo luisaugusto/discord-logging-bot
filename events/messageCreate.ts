@@ -2,14 +2,14 @@ import type { Event } from "./event";
 import { openai } from "../utils/openAIConfig";
 import { ChatCompletionMessageParam } from "openai/src/resources/chat/completions";
 import { logtail } from "../utils/logtailConfig";
-import { checkModeration } from "../utils/checkModeration";
+// import { checkModeration } from "../utils/checkModeration";
 
 export const messageCreate: Event<"messageCreate"> = {
   name: "messageCreate",
   async execute(message) {
     if (message.author.bot) return;
 
-    await checkModeration(message);
+    // await checkModeration(message);
 
     // If the bot is mentioned, respond with a message
     if (!message.mentions.users.has(message.client.user.id)) return;
