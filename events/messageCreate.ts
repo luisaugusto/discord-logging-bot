@@ -1,6 +1,6 @@
 import type { Event } from "./event";
 import { openai } from "../utils/openAIConfig";
-import { ChatCompletionMessageParam } from "openai/src/resources/chat/completions";
+import { ChatCompletionMessageParam } from "openai/resources";
 import { logtail } from "../utils/logtailConfig";
 // import { checkModeration } from "../utils/checkModeration";
 
@@ -17,11 +17,14 @@ export const messageCreate: Event<"messageCreate"> = {
     const prevMessages = await message.channel.messages.fetch({ limit: 20 });
 
     const mappedMessages: ChatCompletionMessageParam[] = prevMessages
-      .map<ChatCompletionMessageParam>((message) => ({
-        role:
-          message.author.id === message.client.user.id ? "assistant" : "user",
-        content: message.cleanContent,
-      }))
+      .map<ChatCompletionMessageParam>((message) => {
+        const params: ChatCompletionMessageParam = {
+          role:
+            message.author.id === message.client.user.id ? "assistant" : "user",
+          content: message.cleanContent,
+        };
+        return params;
+      })
       .reverse();
 
     try {
@@ -47,7 +50,15 @@ export const messageCreate: Event<"messageCreate"> = {
         if (!choiceMessage?.content) return;
 
         const splitMessage = choiceMessage.content.match(/(.|[\r\n]){1,1500}/g);
-        splitMessage?.map((chunk) => message.channel.send(chunk));
+        if (!splitMessage) return;
+        Promise.all(
+          splitMessage.map((chunk) => message.channel.send(chunk)),
+        ).catch(async (e) => {
+          await logtail.error(
+            "Error creating a message",
+            JSON.parse(JSON.stringify(e)),
+          );
+        });
       });
     } catch (e) {
       await message.channel.send(

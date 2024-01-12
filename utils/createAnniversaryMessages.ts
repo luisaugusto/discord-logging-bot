@@ -1,9 +1,9 @@
 import { Client, Collection, Guild, GuildMember } from "discord.js";
-import differenceInMilliseconds from "date-fns/differenceInMilliseconds";
-import differenceInYears from "date-fns/differenceInYears";
-import startOfTomorrow from "date-fns/startOfTomorrow";
-import getMonth from "date-fns/getMonth";
-import getDate from "date-fns/getDate";
+import { differenceInMilliseconds } from "date-fns/differenceInMilliseconds";
+import { differenceInYears } from "date-fns/differenceInYears";
+import { startOfTomorrow } from "date-fns/startOfTomorrow";
+import { getMonth } from "date-fns/getMonth";
+import { getDate } from "date-fns/getDate";
 import { getLoggingChannel } from "./getLoggingChannel";
 import { userMention } from "@discordjs/builders";
 import getGif from "./getGif";

@@ -75,9 +75,12 @@ export const messageReactionAdd: Event<"messageReactionAdd"> = {
 
       const { country_language, translation } = parsedContent;
       const splitMessage = translation.match(/(.|[\r\n]){1,1800}/g);
-      splitMessage?.map(
-        (chunk) =>
-          message.thread?.send(`**${name} ${country_language}**\n${chunk}`),
+      if (!splitMessage) return;
+      await Promise.all(
+        splitMessage.map(
+          (chunk) =>
+            message.thread?.send(`**${name} ${country_language}**\n${chunk}`),
+        ),
       );
     } catch (e) {
       await checkForThread(message);
