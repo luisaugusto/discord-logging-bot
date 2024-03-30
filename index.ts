@@ -1,5 +1,5 @@
 import { guildMemberUpdate } from "./events/guildMemberUpdate";
-import { config } from "dotenv";
+
 import { ready } from "./events/ready";
 import { guildMemberAdd } from "./events/guildMemberAdd";
 import { messageDelete } from "./events/messageDelete";
@@ -12,8 +12,6 @@ import { mallCopRadio } from "./commands/mallCopRadio";
 import { generateImage } from "./commands/generateImage";
 import { messageReactionAdd } from "./events/messageReactionAdd";
 import { logtail } from "./utils/logtailConfig";
-
-config();
 
 const client = new Client({
   // https://discord.com/developers/docs/topics/gateway#list-of-intents
