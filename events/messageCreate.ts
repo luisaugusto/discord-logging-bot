@@ -1,6 +1,8 @@
 import type { Event } from "./event";
-import { openai } from "../utils/openAIConfig";
-import { ChatCompletionMessageParam } from "openai/resources";
+import {
+  convertDiscordMessagesToOpenAIMessages,
+  openai,
+} from "../utils/openAIConfig";
 import { logtail } from "../utils/logtailConfig";
 // import { checkModeration } from "../utils/checkModeration";
 
@@ -15,17 +17,7 @@ export const messageCreate: Event<"messageCreate"> = {
     if (!message.mentions.users.has(message.client.user.id)) return;
 
     const prevMessages = await message.channel.messages.fetch({ limit: 20 });
-
-    const mappedMessages: ChatCompletionMessageParam[] = prevMessages
-      .map<ChatCompletionMessageParam>((message) => {
-        const params: ChatCompletionMessageParam = {
-          role:
-            message.author.id === message.client.user.id ? "assistant" : "user",
-          content: message.cleanContent,
-        };
-        return params;
-      })
-      .reverse();
+    const mappedMessages = convertDiscordMessagesToOpenAIMessages(prevMessages);
 
     try {
       const openAIResponse = await openai.chat.completions.create({

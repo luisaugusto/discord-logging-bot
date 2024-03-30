@@ -12,6 +12,7 @@ import { mallCopRadio } from "./commands/mallCopRadio";
 import { generateImage } from "./commands/generateImage";
 import { messageReactionAdd } from "./events/messageReactionAdd";
 import { logtail } from "./utils/logtailConfig";
+import { summarize } from "./commands/summarize";
 
 const client = new Client({
   // https://discord.com/developers/docs/topics/gateway#list-of-intents
@@ -43,7 +44,7 @@ events.forEach((event) => {
   else client.on(event.name, (...args) => event.execute(...args));
 });
 
-const commands = [report, mallCopRadio, generateImage];
+const commands = [report, mallCopRadio, generateImage, summarize];
 
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isContextMenuCommand() && !interaction.isChatInputCommand())
