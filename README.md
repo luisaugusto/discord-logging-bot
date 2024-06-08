@@ -1,19 +1,25 @@
 # Discord Logging Bot
 
-This bot can be used to log information about how users are interacting with a server. It can log the following information:
+This is a deprecated bot that I used to test different features of the Discord API. Features are currently be migrated to other bots within my organization [Discord Botique](https://github.com/Discord-Botique) to be made scalable.
 
-- A message is  deleted
-- A user joins or leaves a voice channel
-- More logs coming soon!
+## Features
+### To Be Deprecated
+- Plays music in a voice channel (currently broken)
+- Generate an image with AI
+- Summarize a channel with `/summarize`
+- Translates a message using flag emojis
+- Talk to AI Bot
 
-## Resources
+### To Be Migrated
+#### Logging bot
+- Logs when messages are deleted
+- Logs when a user joins and leaves a voice channel
 
-- For info about the API Classes visit the [DiscordJS Docs](https://discord.js.org/#/docs/discord.js/stable/general/welcome)
+#### [Announcements Bot](https://github.com/Discord-Botique/Announcements)
+- Welcomes a user when they join the server
+- Sends a message when someone boosts the server
 
-## Todos
+#### Moderation Bot
+- Can moderate messages with AI
+- Report a message with context window
 
-- Gas Pedal
-- Add comments
-- Welcome channel
-- Music Bot
-- Shut down / start up message
