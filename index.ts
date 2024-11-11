@@ -9,6 +9,7 @@ import { report } from "./commands/report";
 import { Client, ClientEvents, GatewayIntentBits, Partials } from "discord.js";
 import type { Event } from "./events/event";
 import { generateImage } from "./commands/generateImage";
+import { copyEvent } from "./commands/copyEvent";
 import { messageReactionAdd } from "./events/messageReactionAdd";
 import { logtail } from "./utils/logtailConfig";
 import { summarize } from "./commands/summarize";
@@ -59,7 +60,7 @@ events.forEach((event) => {
     });
 });
 
-const commands = [report, generateImage, summarize];
+const commands = [report, generateImage, summarize, copyEvent];
 
 client.on("interactionCreate", (interaction) => {
   if (!interaction.isContextMenuCommand() && !interaction.isChatInputCommand())

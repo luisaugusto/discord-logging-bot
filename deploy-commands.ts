@@ -3,12 +3,13 @@ import { report } from "./commands/report";
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 import { generateImage } from "./commands/generateImage";
+import { copyEvent } from "./commands/copyEvent";
 import { logtail } from "./utils/logtailConfig";
 import { summarize } from "./commands/summarize";
 import { Command } from "./commands/command";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
-const commands: Command[] = [report, generateImage, summarize];
+const commands: Command[] = [report, generateImage, summarize, copyEvent];
 const commandsJSON = commands.map((command) => command.data.toJSON());
 
 const commandsRoute = process.env.TEST_SERVER_ID
