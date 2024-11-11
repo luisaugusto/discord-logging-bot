@@ -39,19 +39,40 @@ const events: Event<keyof ClientEvents>[] = [
 
 events.forEach((event) => {
   // The ready event should only run once, when the app is ready
-  if (event.once) client.once(event.name, (...args) => event.execute(...args));
-  else client.on(event.name, (...args) => event.execute(...args));
+  if (event.once)
+    client.once(event.name, (...args) => {
+      event.execute(...args).catch(async (e) => {
+        await logtail.error(
+          "Error setting up once command",
+          JSON.parse(JSON.stringify(e)),
+        );
+      });
+    });
+  else
+    client.on(event.name, (...args) => {
+      event.execute(...args).catch(async (e) => {
+        await logtail.error(
+          "Error setting up repeatable command",
+          JSON.parse(JSON.stringify(e)),
+        );
+      });
+    });
 });
 
 const commands = [report, generateImage, summarize];
 
-client.on("interactionCreate", async (interaction) => {
+client.on("interactionCreate", (interaction) => {
   if (!interaction.isContextMenuCommand() && !interaction.isChatInputCommand())
     return;
   const { commandName } = interaction;
 
   const command = commands.find(({ data }) => data.name === commandName);
-  await command?.execute(interaction);
+  command?.execute(interaction).catch(async (e) => {
+    await logtail.error(
+      "Error interacting with command",
+      JSON.parse(JSON.stringify(e)),
+    );
+  });
 });
 
 (() => {

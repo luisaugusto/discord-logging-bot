@@ -65,44 +65,51 @@ export const generateImage: Command = {
       const snapshot = await uploadString(imageRef, b64Json, "base64");
       const url = await getDownloadURL(snapshot.ref);
       await logtail.info("Image uploaded to Firebase", { url });
+      const channel = interaction.channel;
 
-      await interaction.channel?.send({
-        embeds: [
-          {
-            image: {
-              url,
+      if (channel?.isSendable()) {
+        await channel.send({
+          embeds: [
+            {
+              image: {
+                url,
+              },
+              fields: [
+                {
+                  name: "Description",
+                  value: description,
+                },
+                {
+                  name: "Author",
+                  value: userMention(interaction.user.id),
+                },
+              ],
             },
-            fields: [
-              {
-                name: "Description",
-                value: description,
-              },
-              {
-                name: "Author",
-                value: userMention(interaction.user.id),
-              },
-            ],
-          },
-        ],
-      });
+          ],
+        });
+      }
     } catch (e) {
-      await interaction.channel?.send({
-        content: "Sorry! There was an error generating an image.",
-        embeds: [
-          {
-            fields: [
-              {
-                name: "Description",
-                value: description,
-              },
-              {
-                name: "Author",
-                value: userMention(interaction.user.id),
-              },
-            ],
-          },
-        ],
-      });
+      const channel = interaction.channel;
+      if (channel?.isSendable()) {
+        await channel.send({
+          content: "Sorry! There was an error generating an image.",
+          embeds: [
+            {
+              fields: [
+                {
+                  name: "Description",
+                  value: description,
+                },
+                {
+                  name: "Author",
+                  value: userMention(interaction.user.id),
+                },
+              ],
+            },
+          ],
+        });
+      }
+
       await logtail.error(
         "Error generating image",
         JSON.parse(JSON.stringify(e)),
