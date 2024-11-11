@@ -1,5 +1,4 @@
 import { report } from "./commands/report";
-import { mallCopRadio } from "./commands/mallCopRadio";
 
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
@@ -9,7 +8,7 @@ import { summarize } from "./commands/summarize";
 import { Command } from "./commands/command";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
-const commands: Command[] = [report, mallCopRadio, generateImage, summarize];
+const commands: Command[] = [report, generateImage, summarize];
 const commandsJSON = commands.map((command) => command.data.toJSON());
 
 const commandsRoute = process.env.TEST_SERVER_ID

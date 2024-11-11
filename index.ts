@@ -8,7 +8,6 @@ import { voiceStateUpdate } from "./events/voiceStateUpdate";
 import { report } from "./commands/report";
 import { Client, ClientEvents, GatewayIntentBits, Partials } from "discord.js";
 import type { Event } from "./events/event";
-import { mallCopRadio } from "./commands/mallCopRadio";
 import { generateImage } from "./commands/generateImage";
 import { messageReactionAdd } from "./events/messageReactionAdd";
 import { logtail } from "./utils/logtailConfig";
@@ -44,7 +43,7 @@ events.forEach((event) => {
   else client.on(event.name, (...args) => event.execute(...args));
 });
 
-const commands = [report, mallCopRadio, generateImage, summarize];
+const commands = [report, generateImage, summarize];
 
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isContextMenuCommand() && !interaction.isChatInputCommand())
