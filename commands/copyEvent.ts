@@ -10,7 +10,7 @@ export const copyEvent: Command = {
       option
         .setName("event-id")
         .setDescription("The ID of the event you want to copy")
-        .setRequired(true)
+        .setRequired(true),
     ),
   async execute(interaction) {
     if (!interaction.isChatInputCommand()) return;
@@ -64,7 +64,7 @@ export const copyEvent: Command = {
 
       await logtail.error(
         "Error generating image",
-        JSON.parse(JSON.stringify(e))
+        JSON.parse(JSON.stringify(e)),
       );
     }
   },
