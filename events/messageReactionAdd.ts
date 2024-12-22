@@ -53,7 +53,7 @@ export const messageReactionAdd: Event<"messageReactionAdd"> = {
 
     try {
       const openAIResponse = await openai.chat.completions.create({
-        model: "gpt-4",
+        model: "gpt-4o-mini",
         temperature: 0,
         messages: [
           {
