@@ -1,6 +1,20 @@
 import { Command } from "./command";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { logtail } from "../utils/logtailConfig";
+import { ChatInputCommandInteraction, GuildScheduledEvent } from "discord.js";
+
+const isEventValid = (
+  event: GuildScheduledEvent | undefined,
+): event is GuildScheduledEvent & { scheduledStartAt: string } =>
+  Boolean(event?.scheduledStartAt);
+
+const findEvent = async (
+  eventId: string,
+  interaction: ChatInputCommandInteraction,
+) => {
+  const events = await interaction.guild?.scheduledEvents.fetch();
+  return events?.find((e) => e.id === eventId);
+};
 
 export const copyEvent: Command = {
   data: new SlashCommandBuilder()
@@ -15,18 +29,9 @@ export const copyEvent: Command = {
   async execute(interaction) {
     if (!interaction.isChatInputCommand()) return;
     const eventId = interaction.options.getString("event-id", true);
-    const events = await interaction.guild?.scheduledEvents.fetch();
-    const event = events?.find((e) => e.id === eventId);
+    const event = await findEvent(eventId, interaction);
 
-    if (!event) {
-      await interaction.reply({
-        content: "Could not find an event with that ID",
-        ephemeral: true,
-      });
-      return;
-    }
-
-    if (!event.scheduledStartAt) {
+    if (!isEventValid(event)) {
       await interaction.reply({
         content: "Event requires a scheduled start time.",
         ephemeral: true,

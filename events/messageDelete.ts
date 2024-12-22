@@ -25,12 +25,11 @@ export const messageDelete: Event<"messageDelete"> = {
     });
 
     const messageAuthorId = message.author?.id;
-    const hasMatchingAudit = auditLog?.target?.id === messageAuthorId;
-    const isSelfDelete = auditLog?.executor?.id === messageAuthorId;
 
     if (
-      (hasMatchingAudit || isSelfDelete) &&
       auditLog?.executor &&
+      (auditLog.target.id === messageAuthorId ||
+        auditLog.executor.id === messageAuthorId) &&
       fullMessage
     ) {
       await channel.send(
